@@ -29,7 +29,7 @@ from core.utils import (
     V3_ANSWER_GUIDE_START_RE,
     V3_ANSWER_GUIDE_ANY_RE,
 )
-from parsers.mcq_parser import (
+from parsers.mcq_parsers import (
     V3_IGNORE_LINE_RE,
     V3_IGNORE_TABLE_RE,
 )
