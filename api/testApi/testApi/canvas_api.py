@@ -10,13 +10,13 @@ import re
 
 import requests
 
-from core.utils import strip_q_prefix
+from .util import strip_q_prefix
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
-def _canvas_headers(canvas_tokeçn: str) -> dict[str, str]:
+def _canvas_headers(canvas_token: str) -> dict[str, str]:
     return {"Authorization": f"Bearer {canvas_token}"}
 
 
@@ -36,18 +36,6 @@ def canvas_whoami(canvas_base_url: str, canvas_token: str):
 # ---------------------------------------------------------------------------
 # Courses
 # ---------------------------------------------------------------------------
-def get_course(canvas_base_url: str, canvas_token: str, course_id: str) -> dict | None:
-    """
-    Retrieve a specific course by ID to verify existence.
-    """
-    url = f"{canvas_base_url.rstrip('/')}/courses/{course_id}"
-    r = requests.get(url, headers=_canvas_headers(canvas_token), timeout=30)
-    if r.status_code == 404:
-        return None
-    r.raise_for_status()
-    return r.json()
-
-
 def list_courses(canvas_base_url: str, canvas_token: str) -> list[dict]:
     """Return all courses visible to the token (all pages)."""
     url = f"{canvas_base_url.rstrip('/')}/courses"
