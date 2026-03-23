@@ -8,16 +8,10 @@ from __future__ import annotations
 
 import re
 
-import requests
+from canvasapi import Canvas
+from canvasapi.exceptions import CanvasException
 
 from core.utils import strip_q_prefix
-
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-def _canvas_headers(canvas_tokeçn: str) -> dict[str, str]:
-    return {"Authorization": f"Bearer {canvas_token}"}
 
 
 # ---------------------------------------------------------------------------
@@ -25,12 +19,16 @@ def _canvas_headers(canvas_tokeçn: str) -> dict[str, str]:
 # ---------------------------------------------------------------------------
 def canvas_whoami(canvas_base_url: str, canvas_token: str):
     """Return the current user object or None if the token is invalid."""
-    url = f"{canvas_base_url.rstrip('/')}/users/self"
-    r = requests.get(url, headers=_canvas_headers(canvas_token), timeout=30)
-    if r.status_code == 401:
+    try:
+        canvas = Canvas(canvas_base_url, canvas_token)
+        user = canvas.get_current_user()
+        return {
+            "id": user.id,
+            "name": user.name,
+            "login_id": getattr(user, "login_id", getattr(user, "email", "")),
+        }
+    except Exception:
         return None
-    r.raise_for_status()
-    return r.json()
 
 
 # ---------------------------------------------------------------------------
@@ -40,32 +38,36 @@ def get_course(canvas_base_url: str, canvas_token: str, course_id: str) -> dict 
     """
     Retrieve a specific course by ID to verify existence.
     """
-    url = f"{canvas_base_url.rstrip('/')}/courses/{course_id}"
-    r = requests.get(url, headers=_canvas_headers(canvas_token), timeout=30)
-    if r.status_code == 404:
+    try:
+        canvas = Canvas(canvas_base_url, canvas_token)
+        course = canvas.get_course(course_id)
+        # Return minimal dict to satisfy potential callers expecting a dict
+        return {"id": course.id, "name": getattr(course, "name", "")}
+    except Exception:
         return None
-    r.raise_for_status()
-    return r.json()
 
 
 def list_courses(canvas_base_url: str, canvas_token: str) -> list[dict]:
     """Return all courses visible to the token (all pages)."""
-    url = f"{canvas_base_url.rstrip('/')}/courses"
+    canvas = Canvas(canvas_base_url, canvas_token)
     out: list[dict] = []
-    page = 1
-    while True:
-        r = requests.get(
-            url,
-            headers=_canvas_headers(canvas_token),
-            params={"per_page": 100, "page": page},
-            timeout=60,
-        )
-        r.raise_for_status()
-        batch = r.json()
-        if not batch:
-            break
-        out.extend(batch)
-        page += 1
+    try:
+        courses = canvas.get_courses(per_page=100)
+        for c in courses:
+            out.append(
+                {
+                    "id": c.id,
+                    "name": (
+                        getattr(c, "name", "")
+                        or getattr(c, "course_code", "")
+                        or f"Course {c.id}"
+                    ).strip(),
+                    "course_code": getattr(c, "course_code", ""),
+                }
+            )
+    except Exception:
+        # Propagate errors (e.g. auth failure) to be caught by the caller
+        raise
     return out
 
 
@@ -74,23 +76,14 @@ def list_courses(canvas_base_url: str, canvas_token: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 def get_existing_quiz_titles(canvas_base_url: str, course_id: str, canvas_token: str) -> set[str]:
     """Return the set of existing quiz titles for the course."""
-    url = f"{canvas_base_url.rstrip('/')}/courses/{course_id}/quizzes"
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
     titles: set[str] = set()
-    page = 1
-    while True:
-        r = requests.get(
-            url,
-            headers=_canvas_headers(canvas_token),
-            params={"page": page, "per_page": 100},
-            timeout=60,
-        )
-        r.raise_for_status()
-        data = r.json()
-        if not data:
-            break
-        for q in data:
-            titles.add((q.get("title") or "").strip())
-        page += 1
+    # canvasapi handles pagination automatically
+    for q in course.get_quizzes(per_page=100):
+        t = getattr(q, "title", "")
+        if t:
+            titles.add(t.strip())
     return titles
 
 
@@ -116,8 +109,9 @@ def create_canvas_quiz(
     settings: dict | None = None,
 ) -> int:
     """Create a new quiz and return its quiz_id."""
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
     settings = settings or {}
-    url = f"{canvas_base_url.rstrip('/')}/courses/{course_id}/quizzes"
 
     quiz_obj: dict = {
         "title": title,
@@ -146,30 +140,19 @@ def create_canvas_quiz(
         if v:
             quiz_obj[k] = v
 
-    r = requests.post(
-        url,
-        headers=_canvas_headers(canvas_token),
-        json={"quiz": quiz_obj},
-        timeout=60,
-    )
-    if r.status_code == 401:
-        raise RuntimeError("401 Unauthorized — token invalid/expired.")
-    if r.status_code == 403:
-        raise RuntimeError("403 Forbidden — missing permission in this course.")
-    r.raise_for_status()
-    return r.json()["id"]
+    try:
+        quiz = course.create_quiz(quiz_obj)
+        return quiz.id
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error: {e}")
 
 
 def publish_quiz(canvas_base_url: str, course_id: str, canvas_token: str, quiz_id: int) -> None:
     """Publish (make visible to students) an existing quiz."""
-    url = f"{canvas_base_url.rstrip('/')}/courses/{course_id}/quizzes/{quiz_id}"
-    r = requests.put(
-        url,
-        headers=_canvas_headers(canvas_token),
-        json={"quiz": {"published": True}},
-        timeout=60,
-    )
-    r.raise_for_status()
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+    quiz = course.get_quiz(quiz_id)
+    quiz.edit(quiz={"published": True})
 
 
 # ---------------------------------------------------------------------------
@@ -183,7 +166,10 @@ def add_question_to_quiz(
     q: dict,
 ) -> None:
     """Upload a single question dict to an existing quiz."""
-    url = f"{canvas_base_url.rstrip('/')}/courses/{course_id}/quizzes/{quiz_id}/questions"
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+    quiz = course.get_quiz(quiz_id)
+
     qtext = strip_q_prefix((q.get("question") or "").strip())
     kind = (q.get("kind") or "").lower()
 
@@ -194,19 +180,14 @@ def add_question_to_quiz(
             for p in (q.get("pairs") or [])
             if p.get("left", "").strip() and p.get("right", "").strip()
         ]
-        payload = {
-            "question": {
-                "question_name": (qtext[:100] if qtext else "Matching"),
-                "question_text": qtext,
-                "question_type": "matching_question",
-                "points_possible": 1,
-                "answers": answers,
-            }
+        q_params = {
+            "question_name": (qtext[:100] if qtext else "Matching"),
+            "question_text": qtext,
+            "question_type": "matching_question",
+            "points_possible": 1,
+            "answers": answers,
         }
-        r = requests.post(url, headers=_canvas_headers(canvas_token), json=payload, timeout=60)
-        if r.status_code >= 400:
-            raise RuntimeError(f"Canvas error {r.status_code}: {r.text[:600]}")
-        r.raise_for_status()
+        quiz.create_question(question=q_params)
         return
 
     opts = [o.strip() for o in (q.get("options") or []) if o and o.strip()]
@@ -214,16 +195,13 @@ def add_question_to_quiz(
 
     # --- Essay / Short Answer ---
     if kind == "essay" or len(opts) < 2:
-        payload = {
-            "question": {
-                "question_name": (qtext[:100] if qtext else "Question"),
-                "question_text": qtext or " ",
-                "question_type": "essay_question",
-                "points_possible": 1,
-            }
+        q_params = {
+            "question_name": (qtext[:100] if qtext else "Question"),
+            "question_text": qtext or " ",
+            "question_type": "essay_question",
+            "points_possible": 1,
         }
-        r = requests.post(url, headers=_canvas_headers(canvas_token), json=payload, timeout=60)
-        r.raise_for_status()
+        quiz.create_question(question=q_params)
         return
 
     # --- MCQ / Multiple Answers ---
@@ -239,19 +217,14 @@ def add_question_to_quiz(
         {"answer_text": opt, "answer_weight": (100 if idx in correct else 0)}
         for idx, opt in enumerate(opts)
     ]
-    payload = {
-        "question": {
-            "question_name": (qtext[:100] if qtext else "Question"),
-            "question_text": qtext,
-            "question_type": qtype,
-            "points_possible": 1,
-            "answers": answers,
-        }
+    q_params = {
+        "question_name": (qtext[:100] if qtext else "Question"),
+        "question_text": qtext,
+        "question_type": qtype,
+        "points_possible": 1,
+        "answers": answers,
     }
-    r = requests.post(url, headers=_canvas_headers(canvas_token), json=payload, timeout=60)
-    if r.status_code >= 400:
-        raise RuntimeError(f"Canvas error {r.status_code}: {r.text[:600]}")
-    r.raise_for_status()
+    quiz.create_question(question=q_params)
 
 
 # ---------------------------------------------------------------------------
