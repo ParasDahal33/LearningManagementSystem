@@ -63,6 +63,7 @@ from services.canvas_api import (
     validate_before_upload,
 )
 from services.openai_services import OpenAIConfig, v3_ai_segment_items_openai
+from services.gemini_services import GeminiConfig, v3_ai_segment_items_gemini
 
 # ---------------------------------------------------------------------------
 # Bootstrap session state
@@ -178,15 +179,30 @@ with st.sidebar:
             st.rerun()
 
         if parser_mode.startswith("v3"):
-            st.session_state.openai_api_key = st.text_input(
-                "OpenAI API key", value=st.session_state.openai_api_key, type="password"
+            st.divider()
+            st.session_state.ai_provider = st.radio(
+                "AI Provider", ["OpenAI", "Gemini"], index=0 if st.session_state.get("ai_provider") != "Gemini" else 1
             )
-            st.session_state.openai_model = st.text_input(
-                "Model", value=st.session_state.openai_model
-            )
-            st.session_state.openai_base_url = st.text_input(
-                "Base URL", value=st.session_state.openai_base_url
-            )
+            if st.session_state.ai_provider == "OpenAI":
+                st.session_state.openai_api_key = st.text_input(
+                    "OpenAI API key", value=st.session_state.openai_api_key, type="password"
+                )
+                st.session_state.openai_model = st.text_input(
+                    "Model", value=st.session_state.openai_model
+                )
+                st.session_state.openai_base_url = st.text_input(
+                    "Base URL", value=st.session_state.openai_base_url
+                )
+            else:
+                st.session_state.gemini_api_key = st.text_input(
+                    "Gemini API key", value=st.session_state.get("gemini_api_key", ""), type="password"
+                )
+                st.session_state.gemini_model = st.text_input(
+                    "Model", value=st.session_state.get("gemini_model", "gemini-1.5-flash")
+                )
+                st.session_state.gemini_base_url = st.text_input(
+                    "Base URL", value=st.session_state.get("gemini_base_url", "https://generativelanguage.googleapis.com")
+                )
 
 # ===========================================================================
 # AUTH GATE
@@ -262,13 +278,6 @@ if parse_btn:
 
         # ------------------------------------------------------------------ v3
         else:
-            if not (st.session_state.openai_api_key or "").strip():
-                raise RuntimeError("v3 (AI+fallback) requires an OpenAI API key.")
-            cfg = OpenAIConfig(
-                api_key=st.session_state.openai_api_key.strip(),
-                model=(st.session_state.openai_model or "gpt-4.1-mini").strip(),
-                base_url=(st.session_state.openai_base_url or "https://api.openai.com").strip(),
-            )
             items = v3_extract_items_with_red(docx_path, include_tables=True)
             items = v3_split_items_on_internal_qnums(items)
 
@@ -289,7 +298,27 @@ if parse_btn:
 
             ignore_texts = v3_collect_ignore_texts_from_forced_tables(docx_path)
             ai_input = v3_filter_items_for_ai(items, ignore_terms=ignore_terms, ignore_texts=ignore_texts, mode="balanced")
-            ai_qs, ai_log = v3_ai_segment_items_openai(ai_input, cfg)
+            
+            ai_provider = st.session_state.get("ai_provider", "OpenAI")
+            if ai_provider == "OpenAI":
+                if not (st.session_state.openai_api_key or "").strip():
+                    raise RuntimeError("v3 (AI+fallback) requires an OpenAI API key.")
+                cfg = OpenAIConfig(
+                    api_key=st.session_state.openai_api_key.strip(),
+                    model=(st.session_state.openai_model or "gpt-4.1-mini").strip(),
+                    base_url=(st.session_state.openai_base_url or "https://api.openai.com").strip(),
+                )
+                ai_qs, ai_log = v3_ai_segment_items_openai(ai_input, cfg)
+            else:
+                if not (st.session_state.gemini_api_key or "").strip():
+                    raise RuntimeError("v3 (AI+fallback) requires a Gemini API key.")
+                cfg_gemini = GeminiConfig(
+                    api_key=st.session_state.gemini_api_key.strip(),
+                    model=(st.session_state.gemini_model or "gemini-1.5-flash").strip(),
+                    base_url=(st.session_state.gemini_base_url or "https://generativelanguage.googleapis.com").strip(),
+                )
+                ai_qs, ai_log = v3_ai_segment_items_gemini(ai_input, cfg_gemini)
+
             rule_essays = v3_parse_essay_questions_rule_based(items)
 
             qs = matching + table_essays + ai_qs + rule_essays

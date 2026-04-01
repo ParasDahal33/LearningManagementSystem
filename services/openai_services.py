@@ -120,7 +120,7 @@ _SEGMENT_SCHEMA = {
     "required": ["questions"],
 }
 
-_BASE_PROMPT = (
+''' _BASE_PROMPT = (
     "You are segmenting a DOCX extraction into Canvas quiz questions.\n"
     "Return STRICT JSON only (per schema).\n"
     "\n"
@@ -141,7 +141,35 @@ _BASE_PROMPT = (
     "- Use the question prompt only.\n"
     "\n"
     "Items (format: I<index>|R0/R1|text):\n"
+)'''
+
+_BASE_PROMPT = (
+    "You are an expert instructional data parser segmenting a DOCX extraction into Canvas LMS quiz questions.\n"
+    "Return STRICT, valid JSON only, following the exact schema provided. Do not include markdown formatting like ```json.\n"
+    "\n"
+    "HARD RULES (Failure to follow these will break the system):\n"
+    "- 1. NO HALLUCINATIONS: You MUST NOT invent, rephrase, or summarize any text. Use the exact text provided.\n"
+    "- 2. INDEX TRACKING: You may ONLY reference item indices (e.g., I5) from the provided list. Keep the original chronological order.\n"
+    "- 3. EXCLUSIONS: Ignore general document instructions, policies, and table headers. HOWEVER, you MUST retain Assessor notes (e.g., 'Answer may address...') specifically attached to short answer/essay questions.\n"
+    "- 4. EXACT SCHEMA: Your output must map directly to the provided JSON structure.\n"
+    "\n"
+    "QUESTION TYPE RULES:\n"
+    "- MULTIPLE CHOICE (single correct): If only one option has an R1 tag, set 'question_type' to 'multiple_choice_question'.\n"
+    "- MULTIPLE ANSWERS (multi-select): If the question asks to 'Select two/three/four' OR if multiple options have an R1 tag, set 'question_type' to 'multiple_answers_question'.\n"
+    "- ESSAY/SHORT ANSWER: If the question is open-ended and followed by assessor grading notes rather than selectable options, set 'question_type' to 'essay_question'.\n"
+    "\n"
+    "MCQ OPTION & ANSWER RULES:\n"
+    "- Extract ALL available options associated with the question stem.\n"
+    "- Inside the 'answers' array, map correctness strictly using the R0/R1 tags (R1 = 100 weight, R0 = 0 weight).\n"
+    "- Ensure 'neutral_comments' is left as an empty string (\"\").\n"
+    "\n"
+    "ESSAY/SHORT ANSWER RULES:\n"
+    "- The 'answers' array MUST be completely empty: [].\n"
+    "- Extract the assessor notes (e.g., 'Answer may address...') and all the associated bullet points (R1 tags) into a single formatted paragraph string. Map this string to the 'neutral_comments' field.\n"
+    "\n"
+    "Items to parse (format: I<index>|R0/R1|text):\n"
 )
+
 
 _MAX_BLOCK_ITEMS = 170
 _OVERLAP = 50
@@ -280,8 +308,11 @@ def v3_ai_segment_items_openai(
         return f"I{i}|{red}|{t}"
 
     def _v3_looks_like_question_start(text: str) -> bool:
-        from parsers.mcq_parser import _v3_looks_like_question_start as _inner
-        return _inner(text)
+        try:
+            from parsers.mcq_parsers import _v3_looks_like_question_start as _inner
+            return _inner(text)
+        except ImportError:
+            return True
 
     def should_demote_mcq_to_essay(stem_text: str, options: list[str], correct: list[int]) -> bool:
         s = v3_normalize_key(stem_text)
