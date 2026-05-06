@@ -15,6 +15,7 @@ import re
 import tempfile
 
 import streamlit as st
+import json
 
 # ---------------------------------------------------------------------------
 # Internal modules
@@ -36,6 +37,7 @@ from parsers.docx_extractor import (
     v2_extract_items_with_red,
     v3_extract_items_with_red,
 )
+from parsers.assessor_guide_parser import parse_assessor_guide
 from parsers.mcq_parsers import (
     parse_mcq_questions_v1,
     parse_essay_questions_v1,
@@ -166,6 +168,8 @@ with st.sidebar:
             ["v1 (rule-based)", "v2 (rule-based)", "v3 (AI-hybrid)"],
             index=0,
         )
+        # Assessor guide import toggle
+        st.session_state.assessor_import = st.checkbox("Assessor Guide import (structured)", value=bool(st.session_state.get("assessor_import", False)))
         prev_mode = st.session_state.last_parser_mode
         if prev_mode is None:
             st.session_state.last_parser_mode = parser_mode
@@ -259,91 +263,148 @@ if parse_btn:
         ai_log: list[str] = []
         removed_dupes = 0
 
-        # ------------------------------------------------------------------ v1
-        if parser_mode.startswith("v1"):
-            matching = parse_matching_questions_doc_order_v1_exact(docx_path)
-            mcq = parse_mcq_questions_v1(desc_items)
-            essay = parse_essay_questions_v1(desc_items)
-            qs = dedupe_questions(matching + mcq + essay)
-
-        # ------------------------------------------------------------------ v2
-        elif parser_mode.startswith("v2"):
-            items_v2 = v2c_merge_dangling_question_lines(desc_items)
-            items_v2 = v2_split_items_on_internal_qnums(items_v2)
-            matching = parse_matching_questions_doc_order_v1_exact(docx_path)
-            mcq = v2c_parse_mcq_questions(items_v2)
-            essay = v2c_parse_essay_questions(items_v2)
-            qs = v2c_dedupe_questions(matching + mcq + essay)
-            qs = v2c_collapse_duplicate_mcq(qs)
-
-        # ------------------------------------------------------------------ v3
+        # If user requested assessor guide structured import, use that parser and store preview
+        if st.session_state.get("assessor_import"):
+            parsed = parse_assessor_guide(docx_path)
+            st.session_state.assessor_parse = parsed
+            # When using assessor import we won't continue with quiz extraction flows here;
+            # keep questions empty unless the user chooses to auto-generate questions later.
+            st.session_state.questions = []
+            st.session_state.parsed_ok = True
+            st.session_state.parse_run_id += 1
+            print("DEBUG: Assessor guide parsed: sections=", len(parsed.get("sections", [])), "rubrics=", len(parsed.get("rubrics", [])), "feedback=", len(parsed.get("feedback_lines", [])))
         else:
-            items = v3_extract_items_with_red(docx_path, include_tables=True)
-            items = v3_split_items_on_internal_qnums(items)
 
-            matching = v3_parse_matching_questions_doc_order(docx_path, items)
-            table_essays = v3_parse_table_defined_terms_as_essays(docx_path, items)
-            table_essays += v3_parse_table_characteristics_as_essays(docx_path, items)
+            # ------------------------------------------------------------------ v1
+            if parser_mode.startswith("v1"):
+                matching = parse_matching_questions_doc_order_v1_exact(docx_path)
+                mcq = parse_mcq_questions_v1(desc_items)
+                essay = parse_essay_questions_v1(desc_items)
+                qs = dedupe_questions(matching + mcq + essay)
 
-            ignore_terms: set[str] = set()
-            for q in table_essays:
-                qt = q.get("question", "")
-                m = re.match(r"^Define:\s*(.+?)\s*\.", qt, flags=re.IGNORECASE)
-                if m:
-                    ignore_terms.add(m.group(1).strip())
-                    continue
-                m = re.match(r"^Describe the essential characteristics of:\s*(.+?)\s*\.", qt, flags=re.IGNORECASE)
-                if m:
-                    ignore_terms.add(m.group(1).strip())
+            # ------------------------------------------------------------------ v2
+            elif parser_mode.startswith("v2"):
+                items_v2 = v2c_merge_dangling_question_lines(desc_items)
+                items_v2 = v2_split_items_on_internal_qnums(items_v2)
+                matching = parse_matching_questions_doc_order_v1_exact(docx_path)
+                mcq = v2c_parse_mcq_questions(items_v2)
+                essay = v2c_parse_essay_questions(items_v2)
+                qs = v2c_dedupe_questions(matching + mcq + essay)
+                qs = v2c_collapse_duplicate_mcq(qs)
 
-            ignore_texts = v3_collect_ignore_texts_from_forced_tables(docx_path)
-            ai_input = v3_filter_items_for_ai(items, ignore_terms=ignore_terms, ignore_texts=ignore_texts, mode="balanced")
-            
-            ai_provider = st.session_state.get("ai_provider", "OpenAI")
-            if ai_provider == "OpenAI":
-                if not (st.session_state.openai_api_key or "").strip():
-                    raise RuntimeError("v3 (AI+fallback) requires an OpenAI API key.")
-                cfg = OpenAIConfig(
-                    api_key=st.session_state.openai_api_key.strip(),
-                    model=(st.session_state.openai_model or "gpt-4.1-mini").strip(),
-                    base_url=(st.session_state.openai_base_url or "https://api.openai.com").strip(),
-                )
-                ai_qs, ai_log = v3_ai_segment_items_openai(ai_input, cfg)
+            # ------------------------------------------------------------------ v3
             else:
-                if not (st.session_state.gemini_api_key or "").strip():
-                    raise RuntimeError("v3 (AI+fallback) requires a Gemini API key.")
-                cfg_gemini = GeminiConfig(
-                    api_key=st.session_state.gemini_api_key.strip(),
-                    model=(st.session_state.gemini_model or "gemini-1.5-flash").strip(),
-                    base_url=(st.session_state.gemini_base_url or "https://generativelanguage.googleapis.com").strip(),
-                )
-                ai_qs, ai_log = v3_ai_segment_items_gemini(ai_input, cfg_gemini)
+                items = v3_extract_items_with_red(docx_path, include_tables=True)
+                items = v3_split_items_on_internal_qnums(items)
 
-            rule_essays = v3_parse_essay_questions_rule_based(items)
+                matching = v3_parse_matching_questions_doc_order(docx_path, items)
+                table_essays = v3_parse_table_defined_terms_as_essays(docx_path, items)
+                table_essays += v3_parse_table_characteristics_as_essays(docx_path, items)
 
-            qs = matching + table_essays + ai_qs + rule_essays
-            qs.sort(key=lambda q: int(q.get("_order", 10**9)))
-            qs, removed_dupes = v3_dedupe_questions(qs)
+                ignore_terms: set[str] = set()
+                for q in table_essays:
+                    qt = q.get("question", "")
+                    m = re.match(r"^Define:\s*(.+?)\s*\.", qt, flags=re.IGNORECASE)
+                    if m:
+                        ignore_terms.add(m.group(1).strip())
+                        continue
+                    m = re.match(r"^Describe the essential characteristics of:\s*(.+?)\s*\.", qt, flags=re.IGNORECASE)
+                    if m:
+                        ignore_terms.add(m.group(1).strip())
 
-        st.session_state.questions = qs
-        st.session_state.parsed_ok = True
-        st.session_state.parse_run_id += 1
-        st.session_state.details["quiz_title"] = ""
-        st.session_state.details["quiz_instructions"] = ""
+                ignore_texts = v3_collect_ignore_texts_from_forced_tables(docx_path)
+                ai_input = v3_filter_items_for_ai(items, ignore_terms=ignore_terms, ignore_texts=ignore_texts, mode="balanced")
+                
+                ai_provider = st.session_state.get("ai_provider", "OpenAI")
+                if ai_provider == "OpenAI":
+                    if not (st.session_state.openai_api_key or "").strip():
+                        raise RuntimeError("v3 (AI+fallback) requires an OpenAI API key.")
+                    cfg = OpenAIConfig(
+                        api_key=st.session_state.openai_api_key.strip(),
+                        model=(st.session_state.openai_model or "gpt-4.1-mini").strip(),
+                        base_url=(st.session_state.openai_base_url or "https://api.openai.com").strip(),
+                    )
+                    ai_qs, ai_log = v3_ai_segment_items_openai(ai_input, cfg)
+                else:
+                    if not (st.session_state.gemini_api_key or "").strip():
+                        raise RuntimeError("v3 (AI+fallback) requires a Gemini API key.")
+                    cfg_gemini = GeminiConfig(
+                        api_key=st.session_state.gemini_api_key.strip(),
+                        model=(st.session_state.gemini_model or "gemini-1.5-flash").strip(),
+                        base_url=(st.session_state.gemini_base_url or "https://generativelanguage.googleapis.com").strip(),
+                    )
+                    ai_qs, ai_log = v3_ai_segment_items_gemini(ai_input, cfg_gemini)
 
-        print("DEBUG: parser:", parser_mode)
-        print("DEBUG: items extracted (description v1):", len(desc_items))
-        print("DEBUG: matching:", sum(1 for q in qs if q.get("kind") == "matching"))
-        print("DEBUG: mcq:", sum(1 for q in qs if q.get("kind") == "mcq"))
-        print("DEBUG: essay:", sum(1 for q in qs if q.get("kind") == "essay"))
-        if parser_mode.startswith("v3"):
-            print("DEBUG: removed_dupes:", removed_dupes)
-        print("Parsed questions:", len(qs))
-        for ln in ai_log[:60]:
-            print(ln)
+                rule_essays = v3_parse_essay_questions_rule_based(items)
+
+                qs = matching + table_essays + ai_qs + rule_essays
+                qs.sort(key=lambda q: int(q.get("_order", 10**9)))
+                qs, removed_dupes = v3_dedupe_questions(qs)
+
+            st.session_state.questions = qs
+            st.session_state.parsed_ok = True
+            st.session_state.parse_run_id += 1
+            st.session_state.details["quiz_title"] = ""
+            st.session_state.details["quiz_instructions"] = ""
+
+            print("DEBUG: parser:", parser_mode)
+            print("DEBUG: items extracted (description v1):", len(desc_items))
+            print("DEBUG: matching:", sum(1 for q in qs if q.get("kind") == "matching"))
+            print("DEBUG: mcq:", sum(1 for q in qs if q.get("kind") == "mcq"))
+            print("DEBUG: essay:", sum(1 for q in qs if q.get("kind") == "essay"))
+            if parser_mode.startswith("v3"):
+                print("DEBUG: removed_dupes:", removed_dupes)
+            print("Parsed questions:", len(qs))
+            for ln in ai_log[:60]:
+                print(ln)
 
     log_box.code(buf.getvalue())
     st.success(f"✅ Parsed {len(st.session_state.questions)} questions.")
+
+    # If we parsed an assessor guide, show a preview panel
+    if st.session_state.get("assessor_parse"):
+        parsed = st.session_state.assessor_parse
+        st.subheader("Assessor Guide — Parsed Preview")
+        cols = st.columns([2, 1])
+        with cols[0]:
+            st.markdown("**Sections**")
+            for s in parsed.get("sections", []):
+                title = s.get("title") or "(no title)"
+                with st.expander(f"{s.get('type', 'section').title()}: {title}"):
+                    for p in s.get("paragraphs", [])[:20]:
+                        st.write(p)
+                    for t in s.get("tables", []):
+                        headers = t.get("headers", [])
+                        st.caption("Table: " + ", ".join(headers[:6]))
+
+        with cols[1]:
+            st.markdown("**Rubrics**")
+            for r in parsed.get("rubrics", []):
+                rt = r.get("title") or "(no title)"
+                tbl = r.get("table", {})
+                hdrs = tbl.get("headers", [])
+                st.write(f"- {rt}: {', '.join(hdrs[:6])}")
+
+            st.markdown("**Assessor feedback (red text)**")
+            for f in parsed.get("feedback_lines", [])[:200]:
+                st.write(f"- {f}")
+            st.divider()
+            # prepare downloadable JSON
+            parsed_json = json.dumps(parsed, indent=2)
+            st.download_button(
+                "Download parsed JSON",
+                data=parsed_json,
+                file_name=f"{(st.session_state.docx_filename or 'assessor_guide').rsplit('.',1)[0]}-parsed.json",
+                mime="application/json",
+            )
+            # rubrics-only export
+            rubrics_json = json.dumps(parsed.get("rubrics", []), indent=2)
+            st.download_button(
+                "Download rubrics JSON",
+                data=rubrics_json,
+                file_name=f"{(st.session_state.docx_filename or 'assessor_guide').rsplit('.',1)[0]}-rubrics.json",
+                mime="application/json",
+            )
 
 questions = st.session_state.questions or []
 if not questions:
