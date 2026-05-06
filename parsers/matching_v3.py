@@ -9,13 +9,14 @@ import re
 
 from docx import Document
 from docx.table import Table
+from docx.text.paragraph import Paragraph
 
 from core.utils import (
     v3_clean_text,
     v3_normalize_key,
     v3_strip_q_prefix,
 )
-from .docx_extractor import v3_iter_all_tables
+from .docx_extractor import v3_iter_all_tables, iter_block_items
 
 
 # ===========================================================================
@@ -82,6 +83,29 @@ def _v3_score_columns(grid, a: int, b: int) -> int:
     return sc
 
 
+def _v3_column_is_index(grid, col: int) -> bool:
+    """Return True if the majority of non-empty cells in the column look like simple numeric indices.
+
+    This helps avoid selecting a numbering column (1,2,3...) as one side of a matching pair.
+    """
+    cnt = 0
+    total = 0
+    for r in grid[1:]:
+        if col >= len(r):
+            continue
+        txt = _v3_join_lines(r[col])
+        if not txt:
+            continue
+        total += 1
+        # pure numbers like '1' or '1.' or '1)' or single letters like 'A' are considered indices
+        t = txt.strip()
+        if re.fullmatch(r"\d+[\.)]?", t) or re.fullmatch(r"[A-Za-z]\b", t) or re.fullmatch(r"\d+\s*[-–:]\s*[A-Za-z]", t):
+            cnt += 1
+        elif len(t) <= 3 and re.fullmatch(r"[A-Za-z0-9]{1,3}", t):
+            cnt += 1
+    return total > 0 and (cnt / total) >= 0.6
+
+
 def _v3_pick_best_columns(grid):
     if not grid:
         return None
@@ -91,6 +115,9 @@ def _v3_pick_best_columns(grid):
     for a in range(max_cols):
         for b in range(max_cols):
             if a == b:
+                continue
+            # skip pairs that include an obvious index/numbering column
+            if _v3_column_is_index(grid, a) or _v3_column_is_index(grid, b):
                 continue
             sc = _v3_score_columns(grid, a, b)
             if sc > best_sc:
@@ -106,9 +133,48 @@ def _v3_extract_pairs(grid, left_col: int, right_col: int, start_row: int = 1) -
             continue
         left = _v3_join_lines(r[left_col])
         right = _v3_join_lines(r[right_col])
+        # Skip rows that look like assessor/answer keys or other metadata
+        if _v3_looks_like_assessor_key(left) or _v3_looks_like_assessor_key(right):
+            continue
         if left and right:
             pairs.append({"left": left, "right": right})
     return pairs
+
+
+def _v3_looks_like_assessor_key(s: str) -> bool:
+    """Return True if the string looks like an assessor/answer key or mapping row.
+
+    Examples matched: 'ASSESSOR KEY: 1-E, 2-F', 'Answer key - 1 A, 2 B', '1-E,2-F' etc.
+    """
+    if not s:
+        return False
+    t = v3_clean_text(s).strip().lower()
+    # obvious keywords
+    if "assessor key" in t or "answer key" in t or (t.startswith("key") and "key" in t):
+        return True
+    # common compact mapping patterns like '1-E' or '1 - E' or '1:E' possibly repeated
+    if re.search(r"\b\d+\s*[-–:\.]?\s*[a-zA-Z]\b", t):
+        # ignore cases where this might be a legitimate short label (very rare in content cells)
+        return True
+    return False
+
+
+def _v3_extract_assessor_key_from_grid(grid) -> str | None:
+    """Scan the table grid for an assessor/answer key string and return it (raw cleaned), or None.
+
+    Looks for cells that match the assessor key pattern (e.g. 'ASSESSOR KEY: 1-E, 2-F' or '1-E, 2-F').
+    """
+    if not grid:
+        return None
+    for r in grid:
+        for c in r:
+            txt = _v3_join_lines(c)
+            if not txt:
+                continue
+            if _v3_looks_like_assessor_key(txt):
+                # return the cleaned original text for use as a comment
+                return v3_clean_text(txt)
+    return None
 
 
 def _v3_find_item_index(items: list[dict], needle: str) -> int | None:
@@ -151,8 +217,12 @@ def v3_parse_matching_questions_doc_order(docx_path: str, items: list[dict] | No
     seen: set[str] = set()
     seq = 0
 
-    for el in v3_iter_all_tables(doc):
-        seq += 1
+    # iterate all document blocks so we can capture the nearest preceding paragraph
+    blocks = list(iter_block_items(doc))
+    for seq, el in enumerate(blocks, start=1):
+        if not isinstance(el, Table):
+            continue
+        # seq here is position among all blocks; keep a separate counter for tables if needed
         grid = _v3_table_to_grid(el)
         if _v3_is_table_forced_essay(grid):
             continue
@@ -172,10 +242,36 @@ def v3_parse_matching_questions_doc_order(docx_path: str, items: list[dict] | No
         header = grid[0] if grid else []
         hL = _v3_join_lines(header[left_col]) if header and left_col < len(header) else "Left"
         hR = _v3_join_lines(header[right_col]) if header and right_col < len(header) else "Right"
-        stem = f"Match each '{hL}' to the correct '{hR}'."
+        # Try to find a more specific stem by looking at preceding paragraphs
+        stem = ""
+        # look back up to 4 blocks for a paragraph that looks like a matching stem
+        try:
+            idx_in_blocks = blocks.index(el)
+        except ValueError:
+            idx_in_blocks = None
+        if idx_in_blocks is not None:
+            for back in range(idx_in_blocks - 1, max(-1, idx_in_blocks - 5), -1):
+                b = blocks[back]
+                if isinstance(b, Paragraph):
+                    txt = v3_clean_text(b.text or "")
+                    if not txt:
+                        continue
+                    # prefer an explicit matching instruction if found
+                    if _v3_looks_like_matching_stem(txt):
+                        stem = txt
+                        break
+                    # otherwise take the nearest non-empty paragraph as a descriptive stem
+                    if len(txt) > 10:
+                        stem = txt
+                        break
+        if not stem:
+            stem = f"Match each '{hL}' to the correct '{hR}'."
 
         if _v3_is_instructions_matching(pairs, stem):
             continue
+
+        # extract assessor key string from the table if present
+        assessor_key = _v3_extract_assessor_key_from_grid(grid)
 
         order = seq
         if items:
@@ -188,6 +284,7 @@ def v3_parse_matching_questions_doc_order(docx_path: str, items: list[dict] | No
         out.append({
             "question": stem,
             "pairs": pairs,
+            "assessor_key": assessor_key,
             "kind": "matching",
             "options": [],
             "correct": [],

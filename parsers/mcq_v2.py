@@ -43,6 +43,9 @@ V2C_MATCHING_STEM_RE = re.compile(
 )
 V2C_LETTERED_OPT_PREFIX_RE = re.compile(r"^\s*(?:[\(\[]?[a-hA-H][\)\].:-])\s+")
 V2C_DANGLING_Q_END_RE = re.compile(r"\b(of|for|to|with|and|or|in|on|at|from|by|as|about)\s*$", re.IGNORECASE)
+V2C_ANSWER_LINE_RE = re.compile(r"^\s*Answer\s*[:\-]?\s*$", re.IGNORECASE)
+V2C_ASSESSOR_KEY_RE = re.compile(r"^(?:ASSESSOR\s*KEY|Answer\s*key)\s*[:\-]?\s*([A-H](?:\s*,\s*[A-H])*)", re.IGNORECASE)
+V2C_QNUM_RE = re.compile(r"^\s*q\s*\d+\s*$", re.IGNORECASE)
 
 
 def _v2c_looks_like_matching_stem(t: str) -> bool:
@@ -108,6 +111,7 @@ def v2c_parse_mcq_questions(items: list[dict]) -> list[dict]:
     saw_multi_hint = False
     current_start_idx: int | None = None
     pending_multi_hint = False
+    pending_assessor_key = None
 
     instruction_block_re = re.compile(r"^(instructions|for\s+learners|for\s+students|for\s+assessors)\b", re.IGNORECASE)
     meta_line_re = re.compile(r"^(More than one answer may apply|Select all that apply|Choose all that apply)\b", re.IGNORECASE)
@@ -136,11 +140,28 @@ def v2c_parse_mcq_questions(items: list[dict]) -> list[dict]:
 
     def flush():
         nonlocal current_q, current_opts, saw_multi_hint, current_start_idx
+        nonlocal pending_assessor_key
         if not current_q:
             return
-        opts = [o for o in current_opts if not V2C_NOISE_RE.match(o["text"]) and not V2C_OPTION_NOISE_RE.match(o["text"])]
+        opts = [
+            o
+            for o in current_opts
+            if not V2C_NOISE_RE.match(o["text"])
+            and not V2C_OPTION_NOISE_RE.match(o["text"])
+            and not V2C_ANSWER_LINE_RE.match(o["text"])
+            and not V2C_ASSESSOR_KEY_RE.match(o["text"])
+            and not V2C_QNUM_RE.match(o["text"][0:10])
+        ]
         option_texts = [o["text"] for o in opts]
-        correct = [i for i, o in enumerate(opts) if o["is_red"]]
+        # prefer explicit assessor key if present, otherwise fall back to red runs
+        if pending_assessor_key is not None:
+            correct = []
+            for ch in pending_assessor_key:
+                idx = ord(ch.upper()) - ord("A")
+                if 0 <= idx < len(option_texts):
+                    correct.append(idx)
+        else:
+            correct = [i for i, o in enumerate(opts) if o["is_red"]]
         qtext = v2c_strip_q_prefix(current_q.strip())
         qlower = qtext.lower()
         multi = (
@@ -174,6 +195,7 @@ def v2c_parse_mcq_questions(items: list[dict]) -> list[dict]:
         current_opts = []
         saw_multi_hint = False
         current_start_idx = None
+        pending_assessor_key = None
 
     def parse_fill_gap_line(line: str):
         if line.count("/") < 2:
@@ -222,6 +244,15 @@ def v2c_parse_mcq_questions(items: list[dict]) -> list[dict]:
         line = v2c_clean_text(it.get("text", ""))
         if not line or V2C_NOISE_RE.match(line) or V2C_OPTION_NOISE_RE.match(line):
             continue
+        # treat a bare Q# line as the start of the next question
+        if V2C_QNUM_RE.match(line):
+            flush()
+            current_q = None
+            current_opts = []
+            saw_multi_hint = False
+            current_start_idx = None
+            pending_assessor_key = None
+            continue
         if instruction_block_re.match(v2c_strip_q_prefix(line)):
             flush()
             current_q = None
@@ -245,6 +276,31 @@ def v2c_parse_mcq_questions(items: list[dict]) -> list[dict]:
         if current_q is None and meta_line_re.match(t_stem):
             pending_multi_hint = True
             continue
+        # skip simple 'Answer:' lines that appear between options and assessor key
+        if V2C_ANSWER_LINE_RE.match(line):
+            continue
+        # capture explicit assessor key lines like 'ASSESSOR KEY: C' or 'Answer key: C'
+        m_key = V2C_ASSESSOR_KEY_RE.match(line)
+        if m_key:
+            letters = [c.strip() for c in m_key.group(1).split(",") if c.strip()]
+            # if we have a current question, mark for it; otherwise, attach to last question
+            if current_q is not None:
+                pending_assessor_key = letters
+                # don't treat this line as an option
+                continue
+            else:
+                # attach to most recent question if any
+                if questions_list:
+                    last_q = questions_list[-1]
+                    option_texts = last_q.get("options", [])
+                    correct_idxs = []
+                    for ch in letters:
+                        idx = ord(ch.upper()) - ord("A")
+                        if 0 <= idx < len(option_texts):
+                            correct_idxs.append(idx)
+                    if correct_idxs:
+                        last_q["correct"] = correct_idxs
+                continue
         if _v2c_looks_like_matching_stem(t_stem):
             flush()
             current_q = None

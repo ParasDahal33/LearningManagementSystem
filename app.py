@@ -86,7 +86,7 @@ with st.sidebar:
     # --- Login ---
     with st.expander("🔐 Login", expanded=login_expanded):
         st.session_state.canvas_base_url = st.text_input(
-            "Canvas Base URL", value=st.session_state.canvas_base_url
+            "Canvas Base URL", value="https://learningvault.instructure.com/"
         ).strip()
         st.session_state.canvas_token = st.text_input(
             "Canvas Access Token", value=st.session_state.canvas_token, type="password"
@@ -442,6 +442,10 @@ for i in range(start, end):
             q["options"] = []
             q["correct"] = []
             q["multi"] = False
+            # show assessor / model answer if present and allow editing
+            ak_e = q.get("assessor_key") or q.get("neutral_comments") or ""
+            ak_edit_e = st.text_area("Correct answer / assessor comments (optional)", value=ak_e, key=f"{run}_assessor_essay_{i}", height=120)
+            q["assessor_key"] = ak_edit_e.strip() or None
 
         elif kind == "matching":
             st.info("This question will be uploaded as MATCHING (left item → dropdown right item).")
@@ -455,6 +459,10 @@ for i in range(start, end):
                 if left.strip() and right.strip():
                     new_pairs.append({"left": left.strip(), "right": right.strip()})
             q["pairs"] = new_pairs
+            # show assessor / correct-answer comments if available and allow editing
+            ak = q.get("assessor_key") or ""
+            ak_edit = st.text_area("Correct answer / assessor comments (optional)", value=ak, key=f"{run}_assessor_{i}", height=80)
+            q["assessor_key"] = ak_edit.strip() or None
 
         else:
             opts = q.get("options", []) or []
@@ -464,7 +472,13 @@ for i in range(start, end):
             new_correct: list[int] = []
             for j, opt in enumerate(opts):
                 oc1, oc2 = st.columns([0.12, 0.88])
-                is_corr = oc1.checkbox("", value=(j in correct_set), key=f"{run}_q{i}_corr_{j}")
+                # Provide a non-empty label for accessibility; hide it visually with label_visibility
+                is_corr = oc1.checkbox(
+                    f"Correct option {j + 1} for question {i + 1}",
+                    value=(j in correct_set),
+                    key=f"{run}_q{i}_corr_{j}",
+                    label_visibility="hidden",
+                )
                 opt_text = oc2.text_input(f"Option {j + 1}", value=opt, key=f"{run}_q{i}_opt_{j}")
                 new_opts.append(opt_text.strip())
                 if is_corr:

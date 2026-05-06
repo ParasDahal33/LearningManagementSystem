@@ -43,9 +43,12 @@ V3_QUESTION_START_RE = re.compile(
     re.IGNORECASE,
 )
 V3_OPTION_LINE_RE = re.compile(
-    r"^\s*(?:(?:option\s*\d+)|(?:\(?[a-h]\)|[a-h][\.\)])|(?:\(?i{1,3}v?\)|i{1,3}v?[\.\)]))\s+",
+    r"^\s*(?:(?:option\s*\d+)|(?:\(?[a-h]\)|[a-h][\.\)])|(?:\(?i{1,3}v?\)|i{1,3}v?[\.\)])|(?:\(?\d+\)|\d+[\.\)\-]))\s+",
     re.IGNORECASE,
 )
+V3_ANSWER_LINE_RE = re.compile(r"^\s*Answer\s*[:\-]?\s*$", re.IGNORECASE)
+V3_ASSESSOR_KEY_RE = re.compile(r"^(?:ASSESSOR\s*KEY|Answer\s*key)\s*[:\-]?\s*([A-H](?:\s*,\s*[A-H])*)", re.IGNORECASE)
+V3_QNUM_RE = re.compile(r"^\s*q\s*\d+\s*$", re.IGNORECASE)
 
 
 def _v3_looks_like_question_start(text: str) -> bool:
@@ -84,6 +87,9 @@ def _v3_is_admin_or_meta_line(text: str) -> bool:
     if tl.startswith("when you have completed all questions") or tl.startswith("by submitting your") or tl.startswith("where a learner is assessed as"):
         return True
     if V3_IGNORE_LINE_RE.match(t) or V3_IGNORE_SECTION_RE.match(t) or V3_IGNORE_TABLE_RE.match(t):
+        return True
+    # treat explicit answer/assessor key or bare Q# lines as meta/admin
+    if V3_ANSWER_LINE_RE.match(t) or V3_ASSESSOR_KEY_RE.match(t) or V3_QNUM_RE.match(t):
         return True
     if _v3_looks_like_answer_guide_bullet(t) or V3_ANSWER_GUIDE_START_RE.match(t):
         return True
@@ -181,6 +187,30 @@ def v3_filter_items_for_ai(
     for it in items:
         t = v3_clean_text(it.get("text", ""))
         if not t:
+            continue
+        # skip bare question-number lines
+        if V3_QNUM_RE.match(t):
+            continue
+        # skip simple 'Answer:' noise lines
+        if V3_ANSWER_LINE_RE.match(t):
+            continue
+        # capture assessor key lines (e.g. 'ASSESSOR KEY: C' or 'Answer key: C') and attach to previous item
+        m_key = V3_ASSESSOR_KEY_RE.match(t)
+        if m_key:
+            letters = [c.strip() for c in m_key.group(1).split(",") if c.strip()]
+            # attach to the nearest previous non-option, non-admin item (likely the question)
+            for prev in reversed(out):
+                prev_text = v3_clean_text(prev.get("text", ""))
+                if not prev_text:
+                    continue
+                if _v3_is_admin_or_meta_line(prev_text):
+                    continue
+                if _v3_looks_like_option_line(prev_text):
+                    continue
+                existing = prev.get("assessor_key") or []
+                prev["assessor_key"] = list(dict.fromkeys(existing + letters))
+                break
+            # do not include assessor-key line itself in output
             continue
         if v3_normalize_key(t) in ignore_texts_norm:
             continue

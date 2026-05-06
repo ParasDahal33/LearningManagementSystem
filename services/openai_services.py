@@ -112,9 +112,13 @@ _SEGMENT_SCHEMA = {
                     "kind": {"type": "string", "enum": ["mcq", "essay"]},
                     "stem": {"type": "array", "items": {"type": "integer"}},
                     "options": {"type": "array", "items": {"type": "array", "items": {"type": "integer"}}},
+                    "neutral_comments": {"type": "string"},
                 },
-                "required": ["kind", "stem", "options"],
-            },
+                # OpenAI's schema validator requires that every key listed in 'properties' be
+                # included in 'required'. We include 'neutral_comments' here; the model may
+                # return an empty string when no assessor notes exist.
+                "required": ["kind", "stem", "options", "neutral_comments"],
+            }
         }
     },
     "required": ["questions"],
@@ -143,6 +147,8 @@ _SEGMENT_SCHEMA = {
     "Items (format: I<index>|R0/R1|text):\n"
 )'''
 
+
+'''
 _BASE_PROMPT = (
     "You are an expert instructional data parser segmenting a DOCX extraction into Canvas LMS quiz questions.\n"
     "Return STRICT, valid JSON only, following the exact schema provided. Do not include markdown formatting like ```json.\n"
@@ -167,12 +173,99 @@ _BASE_PROMPT = (
     "- The 'answers' array MUST be completely empty: [].\n"
     "- Extract the assessor notes (e.g., 'Answer may address...') and all the associated bullet points (R1 tags) into a single formatted paragraph string. Map this string to the 'neutral_comments' field.\n"
     "\n"
+     "MATCHING QUESTION RULES:\n"
+    "- Detect matching sections when the source includes wording such as 'matching activity', 'Match each...', 'Column A', 'Column B', 'Answer', 'Ref', or an 'ASSESSOR KEY' containing number-letter mappings.\n"
+    "- Treat each numbered entry in Column A as the prompt side of the match.\n"
+    "- Treat each lettered entry in Column B as the choice side of the match.\n"
+    "- Preserve the original numbered order from Column A and the original lettered order from Column B.\n"
+    "- Use the exact text from Column A items as prompts and the exact text from Column B items as matches.\n"
+    "- Derive correctness ONLY from the assessor key when present (for example: '1-E, 2-F, 3-G'). Do not infer or correct mappings.\n"
+    "- Ignore instructional text such as 'Write the LETTER from Column B...' and 'Each letter ... is used only once per section.'\n"
+    "- Ignore table labels and headers such as '#', 'Column A', 'Answer', 'Ref', and 'Column B'.\n"
+    "- For matching questions, do not convert the content into multiple choice or essay format.\n"
+    "- Populate the matching question exactly according to the target schema's matching structure. If the schema uses prompt/match pairs, each numbered Column A item must map to its correct lettered Column B item based strictly on the assessor key.\n"
+    "- If a section contains multiple numbered prompts under one shared Column B list, treat that entire section as ONE matching question, not separate standalone questions.\n"
+    "- 'neutral_comments' must be an empty string (\"\") for matching questions unless the schema explicitly requires otherwise.\n"
+    "\n"
+    "REFERENCE PATTERN FOR MATCHING SECTIONS:\n"
+    "- Matching sections may appear in forms like:\n"
+    "  * 'Section X: ...'\n"
+    "  * numbered items in Column A (1, 2, 3...)\n"
+    "  * lettered options in Column B (A, B, C...)\n"
+    "  * an assessor key such as 'ASSESSOR KEY: 1-E, 2-F, 3-G...'\n"
+    "- These indicate a matching_question and must be parsed as one grouped matching item per section.\n"
+    "\n"
     "Items to parse (format: I<index>|R0/R1|text):\n"
 )
+'''
 
+
+_BASE_PROMPT = (
+    "You are an expert assessment-question parser for Canvas LMS.\n"
+    "You receive raw text extracted from DOCX assessment documents, including possible tables, answer blanks, assessor-only keys, rubrics, and formatting artifacts.\n"
+    "Return STRICT, valid JSON only, matching the exact schema provided. Do not include markdown formatting such as ```json.\n"
+    "\n"
+    "CORE RULES:\n"
+    "- NO HALLUCINATIONS: Do not invent, rephrase, summarize, or correct source text. Use the exact text provided.\n"
+    "- INDEX TRACKING: Only reference item indices from the provided list, such as I5. Preserve the original chronological order.\n"
+    "- LEARNER-FACING CONTENT ONLY: Parse learner-facing questions. Exclude cover pages, global instructions, policies, table headers, assessor signatures, dates, feedback sections, result fields, and other non-question content.\n"
+    "- ASSESSOR CONTENT: Remove assessor-only content from question_text, but retain assessor notes, sample answers, rubrics, and acceptable-answer guidance in the appropriate schema fields.\n"
+    "- EXACT SCHEMA: Output must map directly to the provided JSON schema. Use only fields and question_type values supported by that schema.\n"
+    "\n"
+    "QUESTION TEXT RULES:\n"
+    "- Preserve the learner-facing wording exactly as question_text.\n"
+    "- Remove answer blanks or labels such as 'Answer:', blank lines, underscores, and assessor-only answer keys from question_text.\n"
+    "- Ignore table labels and headers such as '#', 'Column A', 'Column B', 'Answer', and 'Ref'.\n"
+    "\n"
+    "QUESTION TYPE RULES:\n"
+    "- MULTIPLE CHOICE, SINGLE CORRECT: If the question has selectable options and only one option is explicitly correct, use the schema's single-answer MCQ type.\n"
+    "- MULTIPLE ANSWERS / MULTI-SELECT: If the question asks to select multiple options, such as 'Select two/three/four' or 'select all that apply', or if multiple options are explicitly correct, use the schema's multi-answer MCQ type and set multiple_select=true if that field exists.\n"
+    "- SHORT ANSWER / ESSAY: If the question is open-ended and followed by assessor guidance, sample answers, acceptable answers, or marking notes rather than selectable options, use the schema's short-answer or essay type.\n"
+    "- MATCHING: If the source includes wording such as 'matching activity', 'Match each...', 'Column A', 'Column B', 'Answer', 'Ref', or an assessor key with number-letter mappings, use the schema's matching type.\n"
+    "\n"
+    "MCQ OPTION AND ANSWER RULES:\n"
+    "- Extract all available options associated with the question stem.\n"
+    "- Preserve option text exactly.\n"
+    "- Normalise option keys to A, B, C... when labels exist. If labels are missing, assign A, B, C... in displayed order.\n"
+    "- Determine correctness only from explicit source indicators, including R0/R1 tags or assessor keys such as 'ASSESSOR KEY: C' or 'Answer: C'.\n"
+    "- Map R1 as correct and R0 as incorrect. If the schema uses weights, R1 = 100 and R0 = 0.\n"
+    "- Do not guess correctness. If the source key is missing or ambiguous, leave correctness unset or false according to the schema, add a warning if supported, and lower confidence if supported.\n"
+    "- Set neutral_comments to an empty string if required by the schema.\n"
+    "\n"
+    "SHORT ANSWER / ESSAY RULES:\n"
+    "- The answers array must be empty if the schema uses an answers field for essay questions.\n"
+    "- Capture assessor guidance such as 'Answer may address...', sample answers, rubrics, and associated bullet points exactly.\n"
+    "- Put broad assessor guidance into neutral_comments, sample_answer, or marking_rubric according to the schema.\n"
+    "- Put concise exact acceptable answers into acceptable_answers only when the source explicitly provides exact acceptable answer strings.\n"
+    "- Do not split long rubrics or broad guidance into acceptable_answers.\n"
+    "\n"
+    "MATCHING QUESTION RULES:\n"
+    "- Treat each matching section as one grouped matching question, not separate standalone questions.\n"
+    "- Treat each numbered item in Column A as the prompt/left side.\n"
+    "- Treat each lettered item in Column B as the choice/right side.\n"
+    "- Preserve the original numbered order from Column A and the original lettered order from Column B.\n"
+    "- Use exact Column A text as prompts and exact Column B text as matches, excluding Column B reference letters from the right-side text.\n"
+    "- Derive correctness only from the assessor key when present, such as '1-E, 2-F, 3-G'. Do not infer, repair, or correct mappings.\n"
+    "- If the assessor key appears inconsistent with visible text, follow the explicit key, add a warning if supported by the schema, and lower confidence if supported.\n"
+    "- Ignore instructional text such as 'Write the LETTER from Column B...' and 'Each letter is used only once per section.'\n"
+    "- Populate matching content according to the schema's matching structure, such as prompt/match pairs or left/right pairs.\n"
+    "- Set neutral_comments to an empty string if required by the schema.\n"
+    "\n"
+    "POINTS AND CONFIDENCE RULES:\n"
+    "- Use explicit marks or points if present. Otherwise default to 1 if the schema requires points.\n"
+    "- Use confidence 0.95 or higher for clear formats with explicit keys.\n"
+    "- Use confidence 0.70 to 0.90 when content is parseable but formatting is messy.\n"
+    "- Use confidence below 0.70 when a key is missing, ambiguous, or inconsistent.\n"
+    "\n"
+    "REFERENCE PATTERN FOR MATCHING SECTIONS:\n"
+    "- Matching sections may appear as section headings, numbered Column A items, lettered Column B options, and assessor keys such as 'ASSESSOR KEY: 1-E, 2-F, 3-G'.\n"
+    "- These indicate one matching question per section.\n"
+    "\n"
+    "Items to parse, formatted as I<index>|R0/R1|text:\n"
+)
 
 _MAX_BLOCK_ITEMS = 170
-_OVERLAP = 50
+_OVERLAP = 80
 
 
 def _build_blocks(n: int) -> list[tuple[int, int]]:
@@ -243,9 +336,14 @@ def v2_ai_segment_items_openai(
                 continue
 
             if kind == "essay":
+                # include any assessor/neutral comments produced by the AI in the parsed question
+                nc = q.get("neutral_comments") if isinstance(q.get("neutral_comments"), str) else ""
+                nc = v3_clean_text(nc) if nc else ""
                 all_qs.append({
                     "question": stem_text, "options": [], "correct": [], "multi": False,
                     "kind": "essay", "_order": min(stem_ids), "qnum": None,
+                    "assessor_key": nc or None,
+                    "neutral_comments": nc or None,
                 })
                 continue
 
@@ -313,6 +411,31 @@ def v3_ai_segment_items_openai(
             return _inner(text)
         except ImportError:
             return True
+
+    def _collect_assessor_notes_for_stem(stem_ids: list[int]) -> str:
+        """Collect nearby R1/answer-guide lines after the stem to form assessor notes."""
+        notes: list[str] = []
+        if not stem_ids:
+            return ""
+        start = max(stem_ids) + 1
+        end = min(len(items), start + 10)
+        for i in range(start, end):
+            it = items[i]
+            t = v3_clean_text(it.get("text", "") or "")
+            if not t:
+                continue
+            if it.get("is_red") or V3_ANSWER_GUIDE_ANY_RE.search(t) or V3_ANSWER_GUIDE_START_RE.match(t):
+                notes.append(t)
+                continue
+            if re.search(r"\banswer (may|must|needs) address\b", t, flags=re.IGNORECASE):
+                notes.append(t)
+                continue
+            if t.startswith(("•", "-", "–", "—")):
+                notes.append(t)
+                continue
+            if _v3_looks_like_question_start(t):
+                break
+        return "; ".join(notes).strip()
 
     def should_demote_mcq_to_essay(stem_text: str, options: list[str], correct: list[int]) -> bool:
         s = v3_normalize_key(stem_text)
@@ -400,9 +523,15 @@ def v3_ai_segment_items_openai(
                 continue
 
             if kind == "essay":
+                nc = q.get("neutral_comments") if isinstance(q.get("neutral_comments"), str) else ""
+                nc = v3_clean_text(nc) if nc else ""
+                if not nc:
+                    nc = _collect_assessor_notes_for_stem(stem_ids)
                 all_qs.append({
                     "question": stem_text, "options": [], "correct": [], "multi": False,
                     "kind": "essay", "_order": min(stem_ids), "qnum": None,
+                    "assessor_key": nc or None,
+                    "neutral_comments": nc or None,
                 })
                 continue
 
@@ -437,9 +566,15 @@ def v3_ai_segment_items_openai(
                 continue
 
             if should_demote_mcq_to_essay(stem_text, out_opts, out_corr):
+                nc = q.get("neutral_comments") if isinstance(q.get("neutral_comments"), str) else ""
+                nc = v3_clean_text(nc) if nc else ""
+                if not nc:
+                    nc = _collect_assessor_notes_for_stem(stem_ids)
                 all_qs.append({
                     "question": stem_text, "options": [], "correct": [], "multi": False,
                     "kind": "essay", "_order": min(stem_ids), "qnum": None,
+                    "assessor_key": nc or None,
+                    "neutral_comments": nc or None,
                 })
             else:
                 all_qs.append({
@@ -452,6 +587,185 @@ def v3_ai_segment_items_openai(
                     "qnum": None,
                 })
 
+    deduped: list[dict] = []
+    seen_q: set[str] = set()
+    for q in sorted(all_qs, key=lambda q: int(q.get("_order", 10**9))):
+        k = v3_normalize_key(q.get("question", ""))
+        if not k or k in seen_q:
+            continue
+        seen_q.add(k)
+        deduped.append(q)
+    return deduped, log
+
+
+def v3_ai_extract_all_openai(items: list[dict], cfg: OpenAIConfig) -> tuple[list[dict], list[str]]:
+    """Use OpenAI to extract MCQ, essay (short answer), and matching questions from items.
+
+    The model must return a JSON array `questions` where each question has:
+      - kind: 'mcq'|'essay'|'matching'
+      - stem: [int,...]
+      - options: [[int,...], ...]  (for mcq)
+      - pairs: [{"left": int, "right": int}, ...] (for matching)
+      - neutral_comments: string (may be empty)
+
+    We post-process the indices into text and derive correctness from R1 (is_red) flags.
+    """
+    log: list[str] = []
+    if not items:
+        return [], log
+
+    def to_line(i: int) -> str:
+        t = v3_clean_text(items[i].get("text", ""))
+        red = "R1" if items[i].get("is_red") else "R0"
+        return f"I{i}|{red}|{t}"
+
+    # JSON schema for the model response
+    schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "questions": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "kind": {"type": "string", "enum": ["mcq", "essay", "matching"]},
+                        "stem": {"type": "array", "items": {"type": "integer"}},
+                        "options": {"type": "array", "items": {"type": "array", "items": {"type": "integer"}}},
+                        "pairs": {"type": "array", "items": {"type": "object", "properties": {"left": {"type": "integer"}, "right": {"type": "integer"}}, "required": ["left", "right"]}},
+                        "neutral_comments": {"type": "string"},
+                    },
+                    "required": ["kind", "stem", "options", "pairs", "neutral_comments"],
+                },
+            }
+        },
+        "required": ["questions"],
+    }
+
+    # build blocks and call the API (reuse earlier block logic)
+    all_qs: list[dict] = []
+    for a, b in _build_blocks(len(items)):
+        ctx = [to_line(i) for i in range(a, b) if v3_clean_text(items[i].get("text", ""))]
+        if len(ctx) < 6:
+            continue
+        log.append(f"AI block: {a}-{b} lines={len(ctx)}")
+        prompt = _BASE_PROMPT + "\n".join(ctx)
+        data, err = openai_responses_json_schema(prompt, "segment_questions", schema, cfg)
+        if err:
+            log.append(f"  block failed: {err}")
+            continue
+        qs = data.get("questions") if isinstance(data, dict) else None
+        if not isinstance(qs, list):
+            log.append("  block skipped: missing questions[]")
+            continue
+
+        for q in qs:
+            if not isinstance(q, dict):
+                continue
+            kind = (q.get("kind") or "").strip().lower()
+            stem_ids = q.get("stem") if isinstance(q.get("stem"), list) else []
+            if kind not in ("mcq", "essay", "matching") or not stem_ids:
+                continue
+            if not all(isinstance(x, int) and 0 <= x < len(items) for x in stem_ids):
+                continue
+
+            # build stem text
+            stem_text = v3_clean_text(" ".join(v3_clean_text(items[x].get("text", "")) for x in stem_ids))
+            stem_text = v3_strip_q_prefix(v3_strip_answer_guide(stem_text))
+            stem_text = v3_trim_after_question_mark(stem_text)
+            stem_text = v3_trim_after_sentence_if_long(stem_text)
+            if not stem_text or len(stem_text) < 8:
+                continue
+
+            nc = q.get("neutral_comments") if isinstance(q.get("neutral_comments"), str) else ""
+            nc = v3_clean_text(nc) if nc else ""
+
+            if kind == "mcq":
+                opt_groups = q.get("options") if isinstance(q.get("options"), list) else []
+                option_texts: list[str] = []
+                correct: list[int] = []
+                for group in opt_groups:
+                    if not isinstance(group, list) or not group:
+                        continue
+                    t = v3_clean_text(" ".join(v3_clean_text(items[x].get("text", "")) for x in group))
+                    if not t or V3_ANSWER_GUIDE_START_RE.match(t) or V3_IGNORE_TABLE_RE.match(t) or V3_IGNORE_LINE_RE.match(t):
+                        continue
+                    option_texts.append(t)
+                    if any(bool(items[x].get("is_red")) for x in group):
+                        correct.append(len(option_texts) - 1)
+
+                if len(option_texts) < 2:
+                    continue
+                all_qs.append({
+                    "question": stem_text,
+                    "options": option_texts,
+                    "correct": correct,
+                    "multi": (len(correct) > 1),
+                    "kind": "mcq",
+                    "_order": min(stem_ids),
+                    "qnum": None,
+                    "assessor_key": nc or None,
+                    "neutral_comments": nc or None,
+                })
+
+            elif kind == "essay":
+                # fallback: if AI returned nothing, try to collect nearby R1 notes
+                if not nc:
+                    # look forward a few items for R1 / answer-guide lines
+                    notes = []
+                    start = max(stem_ids) + 1
+                    for i in range(start, min(len(items), start + 8)):
+                        t = v3_clean_text(items[i].get("text", "") or "")
+                        if not t:
+                            continue
+                        if items[i].get("is_red") or V3_ANSWER_GUIDE_ANY_RE.search(t) or V3_ANSWER_GUIDE_START_RE.match(t):
+                            notes.append(t)
+                    nc = "; ".join(notes).strip()
+
+                all_qs.append({
+                    "question": stem_text,
+                    "options": [],
+                    "correct": [],
+                    "multi": False,
+                    "kind": "essay",
+                    "_order": min(stem_ids),
+                    "qnum": None,
+                    "assessor_key": nc or None,
+                    "neutral_comments": nc or None,
+                })
+
+            elif kind == "matching":
+                pairs_in = q.get("pairs") if isinstance(q.get("pairs"), list) else []
+                pairs: list[dict[str, str]] = []
+                for p in pairs_in:
+                    if not isinstance(p, dict):
+                        continue
+                    L = p.get("left")
+                    R = p.get("right")
+                    if not (isinstance(L, int) and isinstance(R, int)):
+                        continue
+                    if 0 <= L < len(items) and 0 <= R < len(items):
+                        left_txt = v3_clean_text(items[L].get("text", ""))
+                        right_txt = v3_clean_text(items[R].get("text", ""))
+                        if left_txt and right_txt:
+                            pairs.append({"left": left_txt, "right": right_txt})
+                if not pairs:
+                    continue
+                all_qs.append({
+                    "question": stem_text,
+                    "pairs": pairs,
+                    "kind": "matching",
+                    "options": [],
+                    "correct": [],
+                    "multi": False,
+                    "_order": min(stem_ids),
+                    "qnum": None,
+                    "assessor_key": nc or None,
+                    "neutral_comments": nc or None,
+                })
+
+    # dedupe and return
     deduped: list[dict] = []
     seen_q: set[str] = set()
     for q in sorted(all_qs, key=lambda q: int(q.get("_order", 10**9))):

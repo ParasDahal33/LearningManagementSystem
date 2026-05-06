@@ -1,0 +1,508 @@
+{
+  "source_file": "SITHFAB023 Knowledge Test 2 - Assessor Guide_MC.docx",
+  "assessment_type": "multiple_choice",
+  "questions": [
+    {
+      "question": "A ‘mixed drink’ is …",
+      "type": "multiple_choice",
+      "options": [
+        "a mix of spirit and additive such as an aerated water",
+        "a mix of beer and wine",
+        "a mix of syrup and water"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "a mix of spirit and additive such as an aerated water"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What are three (3) basic questions you may need to ask when a customer orders a mixed drink?",
+      "type": "multiple_choice",
+      "options": [
+        "Does the patron want to mix their own drink",
+        "Does the patron want long or short glass",
+        "Does the patron want ice or no ice",
+        "Does the patron want half or full measure"
+      ],
+      "correct": [
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Does the patron want long or short glass",
+        "Does the patron want ice or no ice",
+        "Does the patron want half or full measure"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What is the standard procedure of making a mixed drink?",
+      "type": "multiple_choice",
+      "options": [
+        "Add ice to glass, pour spirit, top up glass with additive, add garnish",
+        "Blend together ice, spirit, additive and garnish",
+        "Shake well ice, spirit, and carbonated water"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Add ice to glass, pour spirit, top up glass with additive, add garnish"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "A ‘shandy’ is …",
+      "type": "multiple_choice",
+      "options": [
+        "beer with coke",
+        "beer with lemonade",
+        "beer with soda"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "beer with lemonade"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "A ‘portergaff’ is …",
+      "type": "multiple_choice",
+      "options": [
+        "stout with lemonade",
+        "beer with juice",
+        "beer with lime juice"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "stout with lemonade"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "A ‘black and tan’ is …",
+      "type": "multiple_choice",
+      "options": [
+        "beer and stout",
+        "beer with lemonade",
+        "beer with coke"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "beer and stout"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Identify five (5) different styles of beer.",
+      "type": "multiple_choice",
+      "options": [
+        "Ale",
+        "Lager",
+        "Corona",
+        "Bitter",
+        "Guinness",
+        "Stout",
+        "Draught"
+      ],
+      "correct": [
+        0,
+        1,
+        3,
+        5,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d",
+        "f",
+        "g"
+      ],
+      "answer_texts": [
+        "Ale",
+        "Lager",
+        "Bitter",
+        "Stout",
+        "Draught"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "A ‘mocktail’ is …",
+      "type": "multiple_choice",
+      "options": [
+        "a non-alcoholic cocktail",
+        "an alcoholic cocktail",
+        "a lemon and lime drink"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "a non-alcoholic cocktail"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What is standard serve size for a nip of spirits?",
+      "type": "multiple_choice",
+      "options": [
+        "30ml",
+        "60ml",
+        "100ml",
+        "120ml"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "30ml"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Identify the six (6) major spirits.",
+      "type": "multiple_choice",
+      "options": [
+        "Brandy",
+        "Whisky",
+        "Wine",
+        "Gin",
+        "Tequila",
+        "Vodka",
+        "Rum",
+        "Beer"
+      ],
+      "correct": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d",
+        "e",
+        "f",
+        "g"
+      ],
+      "answer_texts": [
+        "Brandy",
+        "Whisky",
+        "Gin",
+        "Tequila",
+        "Vodka",
+        "Rum"
+      ],
+      "required_count": 6
+    },
+    {
+      "question": "What is ‘varietal’ wine made of?",
+      "type": "multiple_choice",
+      "options": [
+        "A wine made from any variety of grapes",
+        "A wine made by aging in oak barrels",
+        "A wine made from grapes identified on the label",
+        "A wine made by aging in stainless steel barrels"
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "A wine made from grapes identified on the label"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Identify five (5) practices for serving a bottle of wine to a guest.",
+      "type": "multiple_choice",
+      "options": [
+        "Set appropriate glasses for type of wine",
+        "Present it announcing the name of the wine",
+        "Open it in front of guest",
+        "Leave it on table for guests to fill their glasses",
+        "Present the cork of red wine to the person ordering it",
+        "The main guest fills the glasses for the other guests",
+        "Leave white and sparkling wines in ice bucket"
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "c",
+        "e",
+        "g"
+      ],
+      "answer_texts": [
+        "Set appropriate glasses for type of wine",
+        "Present it announcing the name of the wine",
+        "Open it in front of guest",
+        "Present the cork of red wine to the person ordering it",
+        "Leave white and sparkling wines in ice bucket"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "What is meant by ‘cash service’ in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Customers go to the service counter, order their drink, and pay cash once the drink is served to them",
+        "Customers are served at the table and pay for their drink when leaving the bar",
+        "Customers go to the service counter, order their drink, and don’t pay cash as the drinks are covered by a beverage package"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Customers go to the service counter, order their drink, and pay cash once the drink is served to them"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following apply to a ‘dry till’ in a bar? Select all that apply.",
+      "type": "multiple_choice",
+      "options": [
+        "Used at events and private functions",
+        "Drinks are paid for once they are served at counter",
+        "Account is settled at the end of session",
+        "Drinks are served up to a set dollar limit",
+        "Drinks are served without a limit"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Used at events and private functions",
+        "Account is settled at the end of session",
+        "Drinks are served up to a set dollar limit"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What is meant by an ‘inclusive package’ in terms of bar service? Select all that apply.",
+      "type": "multiple_choice",
+      "options": [
+        "Price includes food and drinks",
+        "Price includes food, drinks, and room service",
+        "A limit is set on amount of liquor included according to RSA provisions",
+        "No set limit on amount of liquor included"
+      ],
+      "correct": [
+        0,
+        2
+      ],
+      "correct_letters": [
+        "a",
+        "c"
+      ],
+      "answer_texts": [
+        "Price includes food and drinks",
+        "A limit is set on amount of liquor included according to RSA provisions"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "Which of the following apply to an ‘open bar’? Select all that apply.",
+      "type": "multiple_choice",
+      "options": [
+        "Used for events and private parties",
+        "Guest can bring their own drinks to the bar",
+        "Guests can be served with whatever the bar has to offer",
+        "There are no restrictions on what guests can order",
+        "Guests can help themselves with any drink they like"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Used for events and private parties",
+        "Guests can be served with whatever the bar has to offer",
+        "There are no restrictions on what guests can order"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Which of the following apply to ‘pre-set’ drinks? Select all that apply.",
+      "type": "multiple_choice",
+      "options": [
+        "Used at functions, parties or set menus",
+        "Drinks arranged with the host in advance",
+        "Drinks that have been mixed before the event",
+        "Arranged amount and quantities to be provided at each table",
+        "Drinks that have been paid for in advance"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Used at functions, parties or set menus",
+        "Drinks arranged with the host in advance",
+        "Arranged amount and quantities to be provided at each table"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Which of the following apply to ‘set limit’ for drinks in a bar? Select all that apply.",
+      "type": "multiple_choice",
+      "options": [
+        "The maximum dollar value of drinks that can be served under a dry till situation",
+        "Guests are not eligible for any drinks beyond the set limit",
+        "Guests pay for their drinks over the limit",
+        "The drinks may be served only during a set time"
+      ],
+      "correct": [
+        0,
+        2
+      ],
+      "correct_letters": [
+        "a",
+        "c"
+      ],
+      "answer_texts": [
+        "The maximum dollar value of drinks that can be served under a dry till situation",
+        "Guests pay for their drinks over the limit"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "What is the correct recipe for a ‘Bloody Mary’ cocktail?",
+      "type": "multiple_choice",
+      "options": [
+        "300ml vodka, dash fresh lemon juice, dash Worcestershire sauce, 2-3 drops of Tabasco sauce (to customer’s taste), salt, pepper, pinched of smoked paprika",
+        "30ml brandy, 30ml dark Créme de Cacao, 45ml cream",
+        "45ml vodka, 15ml Cointreau, 30ml cranberry juice, squeeze of fresh lime juice"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "300ml vodka, dash fresh lemon juice, dash Worcestershire sauce, 2-3 drops of Tabasco sauce (to customer’s taste), salt, pepper, pinched of smoked paprika"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What is the correct preparation method for a ‘Brandy Alexander’ cocktail?",
+      "type": "multiple_choice",
+      "options": [
+        "Build in glass and top with tomato juice",
+        "Shake in cocktail shaker with ice and strain into glass",
+        "Build in glass and stir with cocktail stirrer"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Shake in cocktail shaker with ice and strain into glass"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What is the service requirement for a ‘Cosmopolitan’ cocktail?",
+      "type": "multiple_choice",
+      "options": [
+        "Highball glass, garnish with celery stick, olives, lime slice",
+        "Champagne saucer, garnish with sprinkled/pinch of nutmeg",
+        "Martini or cocktail glass, garnish with lime slice or flamed orange zest"
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Martini or cocktail glass, garnish with lime slice or flamed orange zest"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What is the correct recipe for a ‘Daiquiri’ cocktail?",
+      "type": "multiple_choice",
+      "options": [
+        "30ml brandy, 30ml dark Créme de Cacao, 45ml cream",
+        "Equal quantities of white rum, Cointreau, and fresh lemon juice",
+        "45ml vodka, 15ml Cointreau, 30ml cranberry juice, squeeze of fresh lime juice"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Equal quantities of white rum, Cointreau, and fresh lemon juice"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What is the service requirement for a ‘Grasshopper’ cocktail?",
+      "type": "multiple_choice",
+      "options": [
+        "Highball glass, garnish with celery stick, olives, lime slice",
+        "Champagne saucer, garnish with 2 maraschino cherries, 2 straws and grated chocolate",
+        "Martini or cocktail glass, garnish with lime slice or flamed orange zest"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Champagne saucer, garnish with 2 maraschino cherries, 2 straws and grated chocolate"
+      ],
+      "required_count": 1
+    }
+  ]
+}

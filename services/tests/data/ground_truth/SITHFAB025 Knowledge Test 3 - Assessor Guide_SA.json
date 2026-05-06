@@ -1,0 +1,339 @@
+{
+  "source_file": "SITHFAB025 Knowledge Test 3 - Assessor Guide_SA.docx",
+  "assessment_type": "short_answer",
+  "questions": [
+    {
+      "question": "Identify three (3) possible accompaniments for espresso beverages.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Biscotti",
+        "Small, sweet biscuits",
+        "Chocolate biscuits",
+        "Macaroons"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Biscotti",
+        "Small, sweet biscuits",
+        "Chocolate biscuits",
+        "Macaroons"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) ways ‘blends’ can be selected to meet individual customer preferences?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Mix beans from the country identified by the customer",
+        "Mix beans from ‘responsibly sourced’ beans",
+        "Mix beans with the relevant ratios of beans from certain countries to match stated preferences",
+        "Mix beans from the species nominated by the customer"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Mix beans from the country identified by the customer",
+        "Mix beans from ‘responsibly sourced’ beans",
+        "Mix beans with the relevant ratios of beans from certain countries to match stated preferences",
+        "Mix beans from the species nominated by the customer"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Provide two (2) ways you can vary ‘service-ware’ for coffees to suit individual customer preferences.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Cup or mug",
+        "Small and large glass",
+        "Crockery or take-away container"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Cup or mug",
+        "Small and large glass",
+        "Crockery or take-away container"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "Give three (3) ways you might vary the ‘strength’ of a coffee drink to suit individual customer preferences.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address:",
+        "This is potentially problematic as there is no standard for coffee strength and the term itself means different things to different people (to some it refers to caffeine level, to some it refers to roast, to others it means mouthfeel of the product) – so with this in mind:",
+        "Use a lighter roast for a lighter intensity requirement",
+        "Serve a double ristretto for someone who wants a strong coffee",
+        "Recommend a blend with higher ratio of Robusta beans for someone who say they want it strong",
+        "Add water (such as ‘long black’) where the person wants weaker coffee",
+        "Serve 15ml in standard size (weak), 30ml in standard size (standard strength),30ml Doppio ristretto or 60ml Doppio espresso (strong or double shot)"
+      ],
+      "answer_instructions": [
+        "Answer may address:"
+      ],
+      "answer_points": [
+        "This is potentially problematic as there is no standard for coffee strength and the term itself means different things to different people (to some it refers to caffeine level, to some it refers to roast, to others it means mouthfeel of the product) – so with this in mind:",
+        "Use a lighter roast for a lighter intensity requirement",
+        "Serve a double ristretto for someone who wants a strong coffee",
+        "Recommend a blend with higher ratio of Robusta beans for someone who say they want it strong",
+        "Add water (such as ‘long black’) where the person wants weaker coffee",
+        "Serve 15ml in standard size (weak), 30ml in standard size (standard strength),30ml Doppio ristretto or 60ml Doppio espresso (strong or double shot)"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are five (5) examples of sweetening agents that may be used with coffees?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "White/refined sugar",
+        "Raw brown sugar",
+        "Artificial sweeteners",
+        "Honey",
+        "Maple syrup",
+        "Flavoured syrups",
+        "Molasses",
+        "Mesquite powder"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "White/refined sugar",
+        "Raw brown sugar",
+        "Artificial sweeteners",
+        "Honey",
+        "Maple syrup",
+        "Flavoured syrups",
+        "Molasses",
+        "Mesquite powder"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "What pressure should the boiler be for foaming and steaming milk?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "1 to 1.5 bars"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "1 to 1.5 bars"
+      ]
+    },
+    {
+      "question": "Identify five (5) factors that influence the taste of the espresso beverage.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Beans used",
+        "Blend used",
+        "Extraction rate",
+        "Grind",
+        "Water temperature",
+        "Age of beans and grind",
+        "Cleanliness of machine"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Beans used",
+        "Blend used",
+        "Extraction rate",
+        "Grind",
+        "Water temperature",
+        "Age of beans and grind",
+        "Cleanliness of machine"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "How does ‘ambient humidity’ affect the quality of espresso coffee?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Coffee is hydroscopic meaning it absorbs water",
+        "As humidity increases the grind absorbs water from the atmosphere making the grounds denser and more compacted and making it more difficult for the water to pass through during extraction",
+        "This means as humidity rises you should alter the grind to make it coarser, and as humidity falls this should be made finer – monitoring extraction time can help indicated changes in ambient humidity"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Coffee is hydroscopic meaning it absorbs water",
+        "As humidity increases the grind absorbs water from the atmosphere making the grounds denser and more compacted and making it more difficult for the water to pass through during extraction",
+        "This means as humidity rises you should alter the grind to make it coarser, and as humidity falls this should be made finer – monitoring extraction time can help indicated changes in ambient humidity"
+      ]
+    },
+    {
+      "question": "What three (3) things should be in balance to achieve optimum taste from a coffee blend?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Acidity",
+        "Bitterness",
+        "Sweetness"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Acidity",
+        "Bitterness",
+        "Sweetness"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are some conditions that require the dosage of coffee to be adjusted?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "When you want to make espresso such as when changing filter/basket size – that is, not to alter strength, flavour, or extraction rate.",
+        "When there is change in humidity, temperature, roast level"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "When you want to make espresso such as when changing filter/basket size – that is, not to alter strength, flavour, or extraction rate.",
+        "When there is change in humidity, temperature, roast level"
+      ]
+    },
+    {
+      "question": "Explain the primary reason for changes in flow texture during extraction.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Inconsistent tamping of grounds in the basket can cause uneven distribution of grind into the basket when dosing. It means some parts of the cake are being over-extracted and others are being under-extracted (‘channelling’). This can be rectified by tapping the handle to settle the grounds, or ‘grooming’ the top of the dose.",
+        "Another possibility is that the shower screen may be clogged and needs cleaning or replacing."
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Inconsistent tamping of grounds in the basket can cause uneven distribution of grind into the basket when dosing. It means some parts of the cake are being over-extracted and others are being under-extracted (‘channelling’). This can be rectified by tapping the handle to settle the grounds, or ‘grooming’ the top of the dose.",
+        "Another possibility is that the shower screen may be clogged and needs cleaning or replacing."
+      ]
+    },
+    {
+      "question": "What are two (2) ways of increasing the dose?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Flick the dosing lever another time or few more times",
+        "Weigh out more on electronic scales",
+        "Hold the automatic grinder – doser ‘on’ for a few seconds longer"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Flick the dosing lever another time or few more times",
+        "Weigh out more on electronic scales",
+        "Hold the automatic grinder – doser ‘on’ for a few seconds longer"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "Changes in the humidity is one reason for adjusting the grind.  What are three (3) other reasons when you may need to adjust the grind?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "The grind may need to be adjusted:",
+        "due to blade wear and when replacing blades in the grinder",
+        "as a result of unacceptable variations in extraction time",
+        "when the type of beans is changed",
+        "when the quality of coffee changes, for example, bitter or too strong coffee may be the result of too fine grounds, so the ground needs to be made coarser; and too weak coffee may need finer grounds."
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "The grind may need to be adjusted:",
+        "due to blade wear and when replacing blades in the grinder",
+        "as a result of unacceptable variations in extraction time",
+        "when the type of beans is changed",
+        "when the quality of coffee changes, for example, bitter or too strong coffee may be the result of too fine grounds, so the ground needs to be made coarser; and too weak coffee may need finer grounds."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What is a common way to adjust a grinder?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Moving the collar – usually clockwise makes it coarser and anti-clockwise makes it finer"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Moving the collar – usually clockwise makes it coarser and anti-clockwise makes it finer"
+      ]
+    },
+    {
+      "question": "How does the water flow rate impact the quality of espresso?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "It impacts the extraction rate – high water flow rate increases extraction rate and low water flow decreased extraction rate"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "It impacts the extraction rate – high water flow rate increases extraction rate and low water flow decreased extraction rate"
+      ]
+    },
+    {
+      "question": "What are two (2) common causes that affect the flow rates in espresso machines?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "A faulty pump on the machine or blockages caused by build-up of coffee grounds",
+        "The size of the grind – too fine grind, may slow down the flow rate, while too coarse grind may result in faster flow rate",
+        "The tamping pressure applied to the ground coffee",
+        "The water temperature and pressure – hot water or high pressure may result in faster flow, while cold water or low pressure may slow down the rate"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "A faulty pump on the machine or blockages caused by build-up of coffee grounds",
+        "The size of the grind – too fine grind, may slow down the flow rate, while too coarse grind may result in faster flow rate",
+        "The tamping pressure applied to the ground coffee",
+        "The water temperature and pressure – hot water or high pressure may result in faster flow, while cold water or low pressure may slow down the rate"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "Identify two (2) possible ways to adjust the water pressure on an espresso machine.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Adjust the pump pressure using a pressure gauge or adjusting the regulating screw",
+        "Remove any build-up blockages and adjust the water flow rate"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Adjust the pump pressure using a pressure gauge or adjusting the regulating screw",
+        "Remove any build-up blockages and adjust the water flow rate"
+      ],
+      "required_count": 2
+    }
+  ]
+}

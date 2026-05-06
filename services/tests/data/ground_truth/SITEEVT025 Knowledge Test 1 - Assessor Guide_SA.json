@@ -1,0 +1,503 @@
+{
+  "source_file": "SITEEVT025 Knowledge Test 1 - Assessor Guide_SA.docx",
+  "assessment_type": "short_answer",
+  "questions": [
+    {
+      "question": "What are three (3) examples of the form that a ‘business and corporate’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Product releases or launches",
+        "Promotional events to draw attention to the company and what it does or has to offer",
+        "Various forms of meetings – such as all-of-staff meetings, shareholder meetings or Annual General Meetings (AGMs)",
+        "A team-building activity – for designated departments or individuals",
+        "An incentive program – where staff are rewarded for effort or achieving a given workplace performance target."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Product releases or launches",
+        "Promotional events to draw attention to the company and what it does or has to offer",
+        "Various forms of meetings – such as all-of-staff meetings, shareholder meetings or Annual General Meetings (AGMs)",
+        "A team-building activity – for designated departments or individuals",
+        "An incentive program – where staff are rewarded for effort or achieving a given workplace performance target."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that an ‘entertainment or leisure’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Fairs",
+        "Festivals",
+        "Concerts",
+        "Pageants",
+        "Recreational activities",
+        "Stage shows and theatre productions."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Fairs",
+        "Festivals",
+        "Concerts",
+        "Pageants",
+        "Recreational activities",
+        "Stage shows and theatre productions."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that an ‘exhibition, exposition and fair’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Trade shows",
+        "Displays",
+        "Demonstrations",
+        "Performances",
+        "Product releases or launches."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Trade shows",
+        "Displays",
+        "Demonstrations",
+        "Performances",
+        "Product releases or launches."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that a ‘festival’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Music festivals",
+        "Cultural festivals",
+        "Food festivals",
+        "Religious festivals",
+        "Film festivals",
+        "A date-specific festival – such as Anzac Day, Australia Day, Cup Day, Grand Final Day",
+        "A themed festival – such as Beer and Blues Festival, Wine and Jazz Festival, Writers’ Festival, or Harvest Festival."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Music festivals",
+        "Cultural festivals",
+        "Food festivals",
+        "Religious festivals",
+        "Film festivals",
+        "A date-specific festival – such as Anzac Day, Australia Day, Cup Day, Grand Final Day",
+        "A themed festival – such as Beer and Blues Festival, Wine and Jazz Festival, Writers’ Festival, or Harvest Festival."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that a ‘fundraising’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "A music event or festival",
+        "Charity auction",
+        "Play or theatre production",
+        "Personal challenges",
+        "Games and competitions",
+        "Dining events."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "A music event or festival",
+        "Charity auction",
+        "Play or theatre production",
+        "Personal challenges",
+        "Games and competitions",
+        "Dining events."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that a ‘government and civic’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Citizenship ceremonies",
+        "Award ceremonies",
+        "Displays by certain government bodies",
+        "Multi-cultural events",
+        "Promotions to create awareness of a government initiative",
+        "New Year’s Eve celebrations",
+        "Events that support and encourage local businesses."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Citizenship ceremonies",
+        "Award ceremonies",
+        "Displays by certain government bodies",
+        "Multi-cultural events",
+        "Promotions to create awareness of a government initiative",
+        "New Year’s Eve celebrations",
+        "Events that support and encourage local businesses."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that a ‘meetings and conventions’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Annual General Meetings (AGMs)",
+        "Shareholder meetings",
+        "Seminars",
+        "Conferences",
+        "A series of guest speakers",
+        "Workshops."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Annual General Meetings (AGMs)",
+        "Shareholder meetings",
+        "Seminars",
+        "Conferences",
+        "A series of guest speakers",
+        "Workshops."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of the form that a ‘sports’ event might take?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Competitions",
+        "Training",
+        "Displays",
+        "Games",
+        "Races."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Competitions",
+        "Training",
+        "Displays",
+        "Games",
+        "Races."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of operational and venue requirements that may apply to business and corporate events, government and civic events and meeting and convention events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "On-site registration facilities",
+        "Auditorium for welcome address and daily meetings and updates",
+        "Break-out rooms and a variety of meeting rooms of different sizes",
+        "Media support facilities",
+        "Business support services",
+        "Audio-video facilities for the presentation, recording and transmission of speeches etc",
+        "Fitness and relaxation facilities – spa and wellness centres, gymnasium",
+        "Private meeting rooms",
+        "Catering",
+        "Accommodation",
+        "A variety of on-site entertainment options",
+        "Security."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "On-site registration facilities",
+        "Auditorium for welcome address and daily meetings and updates",
+        "Break-out rooms and a variety of meeting rooms of different sizes",
+        "Media support facilities",
+        "Business support services",
+        "Audio-video facilities for the presentation, recording and transmission of speeches etc",
+        "Fitness and relaxation facilities – spa and wellness centres, gymnasium",
+        "Private meeting rooms",
+        "Catering",
+        "Accommodation",
+        "A variety of on-site entertainment options",
+        "Security."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of operational and venue requirements that may apply to entertainment and leisure events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Facilities to support and enable the type and nature of the entertainment and leisure activities provided",
+        "Toilet and change room facilities",
+        "Food and beverage outlets and/or kitchens",
+        "Foyer area/s",
+        "IT and infrastructure for audio-visual, sound and lighting",
+        "Ticket sales area/facilities",
+        "Gymnasium facilities",
+        "Spa and wellness facilities including treatment rooms",
+        "Swimming pool/s."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Facilities to support and enable the type and nature of the entertainment and leisure activities provided",
+        "Toilet and change room facilities",
+        "Food and beverage outlets and/or kitchens",
+        "Foyer area/s",
+        "IT and infrastructure for audio-visual, sound and lighting",
+        "Ticket sales area/facilities",
+        "Gymnasium facilities",
+        "Spa and wellness facilities including treatment rooms",
+        "Swimming pool/s."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of operational and venue requirements that may apply to exhibition, exposition and fair events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "On-site registration facilities",
+        "Areas, spaces and rooms for stands and stalls to be hired out to holders",
+        "Toilet facilities",
+        "Lost and found facility",
+        "On-site catering/kitchens or room for same to occur on-site",
+        "Public address capability with capacity for playing background music",
+        "Ability for stands and stalls to  connect to power, gas, water in and water out",
+        "Dining and bar areas",
+        "Rest areas",
+        "Media rooms/facilities",
+        "Mobile phone/device charging facilities",
+        "Heavy vehicle (trucks and vans) access."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "On-site registration facilities",
+        "Areas, spaces and rooms for stands and stalls to be hired out to holders",
+        "Toilet facilities",
+        "Lost and found facility",
+        "On-site catering/kitchens or room for same to occur on-site",
+        "Public address capability with capacity for playing background music",
+        "Ability for stands and stalls to  connect to power, gas, water in and water out",
+        "Dining and bar areas",
+        "Rest areas",
+        "Media rooms/facilities",
+        "Mobile phone/device charging facilities",
+        "Heavy vehicle (trucks and vans) access."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of operational and venue requirements that may apply to festival events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Fencing – to define the event area and assist with security and crowd control",
+        "First aid facilities",
+        "Sufficient and appropriate toilet facilities – based on calculations involving gender mix, duration of the event, expected numbers and whether or not alcohol is being served",
+        "Disabled toilet facilities and access.",
+        "Baby change facilities",
+        "Lost and found facility – and lost children area",
+        "Tents and marquees",
+        "Stages",
+        "General and security lighting",
+        "On-site catering – which may be mobile kitchens, contractors or concession stand holders",
+        "Stages and sites for stalls, booths, displays and stands",
+        "Public address capability with capacity for playing background music",
+        "Ability to connect to power, gas and/or water or the capacity to bring same on-site",
+        "Rubbish collection and disposal."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Fencing – to define the event area and assist with security and crowd control",
+        "First aid facilities",
+        "Sufficient and appropriate toilet facilities – based on calculations involving gender mix, duration of the event, expected numbers and whether or not alcohol is being served",
+        "Disabled toilet facilities and access.",
+        "Baby change facilities",
+        "Lost and found facility – and lost children area",
+        "Tents and marquees",
+        "Stages",
+        "General and security lighting",
+        "On-site catering – which may be mobile kitchens, contractors or concession stand holders",
+        "Stages and sites for stalls, booths, displays and stands",
+        "Public address capability with capacity for playing background music",
+        "Ability to connect to power, gas and/or water or the capacity to bring same on-site",
+        "Rubbish collection and disposal."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of operational and venue requirements that may apply to fundraising events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Facilities to support and enable the fundraising activities to be held – such as but not limited to  sporting events, telethons, music events",
+        "Catering and food service facilities",
+        "Media facilities",
+        "Audio-video facilities for the presentation, recording and transmission of the activities etc to sponsors, the public or target market donors",
+        "Public address systems",
+        "Support facilities (green rooms, change rooms, security etc) for celebrities and performers."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Facilities to support and enable the fundraising activities to be held – such as but not limited to  sporting events, telethons, music events",
+        "Catering and food service facilities",
+        "Media facilities",
+        "Audio-video facilities for the presentation, recording and transmission of the activities etc to sponsors, the public or target market donors",
+        "Public address systems",
+        "Support facilities (green rooms, change rooms, security etc) for celebrities and performers."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of operational and venue requirements that may apply to sports events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Ticket sales facilities",
+        "Change rooms – for teams and/or individuals",
+        "Practice equipment and facilities",
+        "Sports gear",
+        "Playing arenas, grounds, fields, courts, tracks etc",
+        "Spectator seating",
+        "Concession stands for food and beverages",
+        "Media facilities",
+        "Public address facilities",
+        "Sophisticated audio-visual and sound and lighting infrastructure – especially for broadcasting",
+        "Toilet and change room facilities",
+        "Recovery rooms",
+        "First aid facilities",
+        "Security control room with CCTV facilities."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Ticket sales facilities",
+        "Change rooms – for teams and/or individuals",
+        "Practice equipment and facilities",
+        "Sports gear",
+        "Playing arenas, grounds, fields, courts, tracks etc",
+        "Spectator seating",
+        "Concession stands for food and beverages",
+        "Media facilities",
+        "Public address facilities",
+        "Sophisticated audio-visual and sound and lighting infrastructure – especially for broadcasting",
+        "Toilet and change room facilities",
+        "Recovery rooms",
+        "First aid facilities",
+        "Security control room with CCTV facilities."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) examples of sources of information on event venues or sites?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Convention and visitor bureaus",
+        "Destination brochures",
+        "Land management and protection agencies",
+        "Local, regional or state cultural, tourism and sporting organisations",
+        "The internet",
+        "Trade journals",
+        "Venue publications and directories",
+        "Organisational databases",
+        "Network of industry contacts."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Convention and visitor bureaus",
+        "Destination brochures",
+        "Land management and protection agencies",
+        "Local, regional or state cultural, tourism and sporting organisations",
+        "The internet",
+        "Trade journals",
+        "Venue publications and directories",
+        "Organisational databases",
+        "Network of industry contacts."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) standard processes that may be applied to undertake a virtual inspection of a venue or site?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address:",
+        "Access the website of the venue or site and click on the photographs provided to view the venue or site",
+        "Click on a YouTube video of the venue or site",
+        "Access the website of the venue or site and take a 3D virtual or augmented reality tour."
+      ],
+      "answer_instructions": [
+        "Answer must address:"
+      ],
+      "answer_points": [
+        "Access the website of the venue or site and click on the photographs provided to view the venue or site",
+        "Click on a YouTube video of the venue or site",
+        "Access the website of the venue or site and take a 3D virtual or augmented reality tour."
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are five (5) examples of key features of local event venues or sites that will determine their ability to host certain types of events?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address, but is not limited to, three of the following:",
+        "Size or attendee/crowd capacity",
+        "Access",
+        "Proximity to public transport",
+        "Parking",
+        "Facilities relevant to the individual nature of the event",
+        "Catering facilities",
+        "Accommodation available",
+        "Aspect",
+        "Type of technical equipment and production services available",
+        "Layout",
+        "Variety of spaces",
+        "On-site infrastructure."
+      ],
+      "answer_instructions": [
+        "Answer may address, but is not limited to, three of the following:"
+      ],
+      "answer_points": [
+        "Size or attendee/crowd capacity",
+        "Access",
+        "Proximity to public transport",
+        "Parking",
+        "Facilities relevant to the individual nature of the event",
+        "Catering facilities",
+        "Accommodation available",
+        "Aspect",
+        "Type of technical equipment and production services available",
+        "Layout",
+        "Variety of spaces",
+        "On-site infrastructure."
+      ],
+      "required_count": 5
+    }
+  ]
+}

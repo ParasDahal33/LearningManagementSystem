@@ -1,0 +1,316 @@
+{
+  "source_file": "SIRXCEG008 Knowledge Test 1 - Assessor Guide_MC(1).docx",
+  "assessment_type": "multiple_choice",
+  "questions": [
+    {
+      "question": "Select the best summary of the Australian Consumer Law (ACL) and how it relates to customer service.",
+      "type": "multiple_choice",
+      "options": [
+        "The ACL provides comprehensive rights and safeguards for consumers when dealing with businesses in relation to a range of matters, including consumer rights and guarantees, warranties and refunds, complaints and misleading or deceptive conduct.",
+        "The ACL provides comprehensive rights and safeguards for consumers of food, alcohol and tobacco products only; it has little bearing on the provision of customer service in other settings.",
+        "The ACL primarily focuses on supermarket products, such as incorrect scanning and false advertising, and as such, it has minimal impact in other customer service contexts."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "The ACL provides comprehensive rights and safeguards for consumers when dealing with businesses in relation to a range of matters, including consumer rights and guarantees, warranties and refunds, complaints and misleading or deceptive conduct."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Select the best summary of Public Health Acts and how they relate to customer service.",
+      "type": "multiple_choice",
+      "options": [
+        "Public Health Acts primarily focus on regulations and measures related to public health, safety, and hygiene; they have no relevance to customer service contexts.",
+        "Public Health Acts are a collection of laws designed to ensure the provision of exceptional customer service across various industries, emphasising the importance of customer satisfaction and quality assurance.",
+        "Public Health Acts primarily focus on regulations and measures related to public health, safety, and hygiene. They may relate to customer service in regard to matters such as the safety and security of staff and customers, mental health support and emergency response protocols."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Public Health Acts primarily focus on regulations and measures related to public health, safety, and hygiene. They may relate to customer service in regard to matters such as the safety and security of staff and customers, mental health support and emergency response protocols."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "The Privacy Act 1988 (Cth.) promotes the sharing of customer information without consent, reducing the need for repetition and facilitating better customer service.",
+      "type": "multiple_choice",
+      "options": [
+        "The Privacy Act 1988 (Cth.) has a significant effect on how businesses manage and protect customer information, for example, the protection of personal information, data breach notifications, and consent around the collection and use of customer data, which in turn can influence the customer service experience.",
+        "The Privacy Act 1988 (Cth.) mainly focuses on protecting customer service representatives' privacy and has little impact on customer data protection.",
+        "Q4. Select the best option to complete this sentence: Legislation supports businesses in managing disrespectful, aggressive or abusive customers by …",
+        "imposing heavy fines on the employees who report such incidents.",
+        "requiring businesses to provide a personal apology to any customer with a complaint/problem.",
+        "providing a legal framework to deal with such situations when they arise.",
+        "mandating that they offer discounts and freebies as compensation."
+      ],
+      "correct": [
+        0,
+        5
+      ],
+      "correct_letters": [
+        "a",
+        "f"
+      ],
+      "answer_texts": [
+        "The Privacy Act 1988 (Cth.) has a significant effect on how businesses manage and protect customer information, for example, the protection of personal information, data breach notifications, and consent around the collection and use of customer data, which in turn can influence the customer service experience.",
+        "providing a legal framework to deal with such situations when they arise."
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "Q5. What are four (4) typical examples of organisational policies and procedures that relate to the management of handling disrespectful, aggressive or abusive customers?",
+      "type": "multiple_choice",
+      "options": [
+        "Conflict resolution competitions and contest",
+        "Incident reporting and record keeping",
+        "Using humour to defuse aggressive customer interactions",
+        "Incident response methods",
+        "Customer aggressor rewards",
+        "Complaint handling and resolution",
+        "Escalation protocol",
+        "Q6.  Select four (4) ways organisational policies and procedures help support a positive and safe environment for staff when dealing with disrespectful, aggressive or abusive customers."
+      ],
+      "correct": [
+        1,
+        3,
+        5,
+        6
+      ],
+      "correct_letters": [
+        "b",
+        "d",
+        "f",
+        "g"
+      ],
+      "answer_texts": [
+        "Incident reporting and record keeping",
+        "Incident response methods",
+        "Complaint handling and resolution",
+        "Escalation protocol"
+      ],
+      "required_count": 4
+    },
+    {
+      "question": "Setting clear expectations for staff behaviour and customer interactions",
+      "type": "multiple_choice",
+      "options": [
+        "Establishing health and safety protocols",
+        "Providing techniques for customer provocation",
+        "Providing de-escalation techniques",
+        "Providing debriefing procedures",
+        "Establishing guidelines around the ‘customer is always right’ principle, even when   rude or aggressive",
+        "Removing any legal obligations or matters of compliance"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Establishing health and safety protocols",
+        "Providing de-escalation techniques",
+        "Providing debriefing procedures"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are five (5) possible sources of disrespectful, aggressive or abusive customer behaviour?",
+      "type": "multiple_choice",
+      "options": [
+        "Problems with cost and pricing",
+        "Social media trends",
+        "Service or product delays",
+        "Holiday periods, such as Christmas",
+        "Individual character traits and attributes",
+        "Misunderstandings of staff instructions",
+        "Exceeded customer expectations",
+        "Refusal or ejection from premises"
+      ],
+      "correct": [
+        0,
+        2,
+        4,
+        5,
+        7
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "e",
+        "f",
+        "h"
+      ],
+      "answer_texts": [
+        "Problems with cost and pricing",
+        "Service or product delays",
+        "Individual character traits and attributes",
+        "Misunderstandings of staff instructions",
+        "Refusal or ejection from premises"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Staff uniforms",
+      "type": "multiple_choice",
+      "options": [
+        "Changes in management",
+        "Mental illness or alcohol intoxication (or under the influence of other drugs)",
+        "Unavailability of stock",
+        "Aesthetics (décor) of the premises",
+        "Store location",
+        "Problems with service or product received",
+        "Unfulfilled expectations of product or service",
+        "Communication problems",
+        "Poor lighting"
+      ],
+      "correct": [
+        0,
+        3,
+        4,
+        8
+      ],
+      "correct_letters": [
+        "a",
+        "d",
+        "e",
+        "i"
+      ],
+      "answer_texts": [
+        "Changes in management",
+        "Aesthetics (décor) of the premises",
+        "Store location",
+        "Poor lighting"
+      ],
+      "required_count": 4
+    },
+    {
+      "question": "Select two (2) reasons it is important for customer service staff to develop an awareness of the signs of potential customer disruption.",
+      "type": "multiple_choice",
+      "options": [
+        "To psychologically profile customers and create a blacklist of troublesome ones",
+        "To time breaks so as to avoid possible difficult interactions",
+        "To proactively manage and de-escalate situations before they worsen",
+        "To pre-empt customer frustrations and take appropriate measures to address concerns and provide solutions"
+      ],
+      "correct": [
+        2,
+        3
+      ],
+      "correct_letters": [
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "To proactively manage and de-escalate situations before they worsen",
+        "To pre-empt customer frustrations and take appropriate measures to address concerns and provide solutions"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "What are five (5) examples of disrespectful, aggressive or abusive customer behaviour?",
+      "type": "multiple_choice",
+      "options": [
+        "Unwillingness or inability to calm down",
+        "Request to speak to a supervisor",
+        "Use of inappropriate language, including racial slurs",
+        "Inability to effectively communicate in local language",
+        "Refusal to follow staff instructions",
+        "Expression of dissatisfaction about excessive wait times",
+        "Verbal or physical aggression",
+        "Requests for information about products or services",
+        "Hostile group behaviour"
+      ],
+      "correct": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "e",
+        "g",
+        "i"
+      ],
+      "answer_texts": [
+        "Unwillingness or inability to calm down",
+        "Use of inappropriate language, including racial slurs",
+        "Refusal to follow staff instructions",
+        "Verbal or physical aggression",
+        "Hostile group behaviour"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "High employee retention",
+      "type": "multiple_choice",
+      "options": [
+        "Improved customer satisfaction",
+        "High staff turnover",
+        "Increased productivity",
+        "Low staff morale and high job dissatisfaction",
+        "Increased sick leave absences",
+        "Maintained staff welfare and wellbeing"
+      ],
+      "correct": [
+        1,
+        3,
+        4,
+        5
+      ],
+      "correct_letters": [
+        "b",
+        "d",
+        "e",
+        "f"
+      ],
+      "answer_texts": [
+        "High staff turnover",
+        "Low staff morale and high job dissatisfaction",
+        "Increased sick leave absences",
+        "Maintained staff welfare and wellbeing"
+      ],
+      "required_count": 4
+    },
+    {
+      "question": "With regard to disrespectful, aggressive or abusive customer behaviour, select three (3) ways associated risks to the business can be mitigated?",
+      "type": "multiple_choice",
+      "options": [
+        "Downplaying the impact of such behaviour on staff and the business",
+        "Providing staff training and skill development",
+        "Having clear and established policies and procedures",
+        "Removing accountability from customers for their behaviour",
+        "Offering professional support services for staff",
+        "Disregarding incident reporting and documentation"
+      ],
+      "correct": [
+        1,
+        2,
+        4
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "e"
+      ],
+      "answer_texts": [
+        "Providing staff training and skill development",
+        "Having clear and established policies and procedures",
+        "Offering professional support services for staff"
+      ],
+      "required_count": 3
+    }
+  ]
+}

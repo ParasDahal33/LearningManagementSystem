@@ -1,0 +1,374 @@
+{
+  "source_file": "SITHFAB025 Knowledge Test 2 - Assessor Guide_SA.docx",
+  "assessment_type": "short_answer",
+  "questions": [
+    {
+      "question": "Provide three (3) examples of service-ware that needs to be prepared as part of mise en place for coffee service.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Cups",
+        "Saucers",
+        "Glassware",
+        "Spoons and stirrers",
+        "Napkins or serviettes"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Cups",
+        "Saucers",
+        "Glassware",
+        "Spoons and stirrers",
+        "Napkins or serviettes"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are five (5) examples of food supplies that need to be prepared as part of mise en place for coffee service?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Coffee beans",
+        "Milks",
+        "Sugars",
+        "Sweeteners",
+        "Syrups",
+        "Chocolate powder",
+        "Cinnamon",
+        "Accompaniments"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Coffee beans",
+        "Milks",
+        "Sugars",
+        "Sweeteners",
+        "Syrups",
+        "Chocolate powder",
+        "Cinnamon",
+        "Accompaniments"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Identify five (5) opening procedures that apply to getting the espresso machine ready for use.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Assemble all the parts verifying cleanliness of all components",
+        "Turn on the espresso machine",
+        "Release some water from the boiler",
+        "Run water through group heads",
+        "Release steam from steam wand",
+        "Check pressure and temperature to refresh"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Assemble all the parts verifying cleanliness of all components",
+        "Turn on the espresso machine",
+        "Release some water from the boiler",
+        "Run water through group heads",
+        "Release steam from steam wand",
+        "Check pressure and temperature to refresh"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "What are two types of coffee grinders?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address:",
+        "Blade grinder",
+        "Burr grinder – wheel and conical"
+      ],
+      "answer_instructions": [
+        "Answer may address:"
+      ],
+      "answer_points": [
+        "Blade grinder",
+        "Burr grinder – wheel and conical"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "If humidity increases, how will the grind be affected?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "The grind will become coarser."
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "The grind will become coarser."
+      ]
+    },
+    {
+      "question": "What type of grind is appropriate for espresso, ‘fine’, ‘medium’ or ‘coarse’?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Fine"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Fine"
+      ]
+    },
+    {
+      "question": "What is the standard dose required to produce a shot of espresso?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "7-9gms of freshly ground beans"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "7-9gms of freshly ground beans"
+      ]
+    },
+    {
+      "question": "Provide three (3) ways you can measure the dose?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Sight",
+        "Electronically",
+        "Manually",
+        "Mechanically"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Sight",
+        "Electronically",
+        "Manually",
+        "Mechanically"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What is meant by ‘tamping’ ground coffee?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Compressing it and giving it a firm and level finish"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Compressing it and giving it a firm and level finish"
+      ]
+    },
+    {
+      "question": "How much pressure should be applied when tamping ground coffee?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "20lbs to 30lbs of pressure (9 – 13kgs)"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "20lbs to 30lbs of pressure (9 – 13kgs)"
+      ]
+    },
+    {
+      "question": "What is meant by the ‘extraction rate’?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "The number of seconds it takes to pour a 30ml shot of espresso."
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "The number of seconds it takes to pour a 30ml shot of espresso."
+      ]
+    },
+    {
+      "question": "How long should it take to pour a shot of espresso?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "25 to 30 seconds"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "25 to 30 seconds"
+      ]
+    },
+    {
+      "question": "At what temperature should you start ‘texturing’ milk rather than ‘aerating’ it?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "37°C"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "37°C"
+      ]
+    },
+    {
+      "question": "Should the steam wand be near the top of the milk or deep into the jug when seeking to ‘emulsify’ the milk?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Deep into the jug"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Deep into the jug"
+      ]
+    },
+    {
+      "question": "What are five (5) possible ways to sequencing large orders when preparing coffee beverages?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Prepare coffees in the sequence the orders were placed",
+        "Use double group handles to produce two shots or similar beverages at the same time",
+        "Prepare espresso first",
+        "Texture milk last",
+        "Group together beverages requiring the same milk texturing if the orders are sequential",
+        "Use the thickest foam from the milk jug first – so this would mean serving cappuccinos before lattés and flat whites",
+        "Ensure group orders are served at the same time bearing in mind loss of quality (appearance of foam, art, and heat) which can occur when partly preparing other orders"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Prepare coffees in the sequence the orders were placed",
+        "Use double group handles to produce two shots or similar beverages at the same time",
+        "Prepare espresso first",
+        "Texture milk last",
+        "Group together beverages requiring the same milk texturing if the orders are sequential",
+        "Use the thickest foam from the milk jug first – so this would mean serving cappuccinos before lattés and flat whites",
+        "Ensure group orders are served at the same time bearing in mind loss of quality (appearance of foam, art, and heat) which can occur when partly preparing other orders"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "What is the colour of the ‘perfect’ crema.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Rich caramel colour"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Rich caramel colour"
+      ]
+    },
+    {
+      "question": "What are three (3) possible causes that may produce crema that is paler than required?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Insufficient dose",
+        "Too fast extraction rate",
+        "Grind is too coarse",
+        "Temperature of water not hot enough",
+        "Low pump pressure"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Insufficient dose",
+        "Too fast extraction rate",
+        "Grind is too coarse",
+        "Temperature of water not hot enough",
+        "Low pump pressure"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Provide three (3) possible causes why the flow rate from the espresso machine may decrease.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer may address the following:",
+        "Dose too tightly packed or tamped too hard",
+        "Grind is too fine",
+        "Insufficient pressure",
+        "Obstruction in or problem with water flow"
+      ],
+      "answer_instructions": [
+        "Answer may address the following:"
+      ],
+      "answer_points": [
+        "Dose too tightly packed or tamped too hard",
+        "Grind is too fine",
+        "Insufficient pressure",
+        "Obstruction in or problem with water flow"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "If the ‘cake’ is loose and wet when tested does this indicate the dose is too high or too low?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Too low"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Too low"
+      ]
+    },
+    {
+      "question": "What should a good ‘cake’ feel like when knocked out?",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "Firm and little spongy – not loose and wet, and not hard as rock"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "Firm and little spongy – not loose and wet, and not hard as rock"
+      ]
+    },
+    {
+      "question": "What is the optimum water pressure during extraction.",
+      "type": "short_answer",
+      "guidance": [
+        "Answer must address the following:",
+        "9 bars or higher"
+      ],
+      "answer_instructions": [
+        "Answer must address the following:"
+      ],
+      "answer_points": [
+        "9 bars or higher"
+      ]
+    }
+  ]
+}

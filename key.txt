@@ -1,3 +1,5 @@
-API Token: 80EA742E-C20D-4D2F-B65A1233576093EA
+API Token: <REDACTED - move to .streamlit/secrets.toml or set as env var>
 
-Web Service Token:   3B8A9EBD-5C90-44C8-945C9BDFB2A9AF4A
+Web Service Token: <REDACTED - move to .streamlit/secrets.toml or set as env var>
+
+Instructions: Remove this file from version control. Store secrets in `.streamlit/secrets.toml` or use environment variables.

@@ -1,0 +1,1035 @@
+{
+  "source_file": "SITHCCC028 Knowledge Test - Assessor Guide_MC.docx",
+  "assessment_type": "multiple_choice",
+  "questions": [
+    {
+      "question": "Which of the following is a definition for the culinary term ‘Barquette’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "French bread commonly served with appetisers",
+        "Large croutons served hot with warm salads",
+        "Cooked, chilled fish pieces",
+        "Small boat-shaped pastry shell to hold soft filling."
+      ],
+      "correct": 3,
+      "correct_letters": [
+        "d"
+      ],
+      "answer_texts": [
+        "Small boat-shaped pastry shell to hold soft filling."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following culinary terms describes small cubes of fried bread? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Croutons",
+        "Concasse",
+        "Croquette",
+        "Coulis."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Croutons"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a definition for the culinary term ‘Dim sum’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Japanese-style snack food",
+        "Chinese-style snack food",
+        "Chinese cabbage",
+        "Japanese bean shoots"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Chinese-style snack food"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following culinary terms describes a small cylindrical/round-shaped pastry shell to hold soft filling? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Alfajor",
+        "Vol-au-vent",
+        "Chouquette",
+        "Croissant."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Vol-au-vent"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a definition for the culinary tern ‘Chiffonade’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Short thin strips (such as carrot)",
+        "Finely diced vegetables",
+        "Finely shredded items (such as lettuce)",
+        "Discs of vegetable used as the base for appetisers."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Finely shredded items (such as lettuce)"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following culinary terms describes an Italian first course? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Antipasto",
+        "Alla griglia",
+        "Odori",
+        "Soffritto."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Antipasto"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a definition for the culinary tern ‘Canapé’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "French poultry popular as an ingredient in salads",
+        "Generic name for duck-based hors d’oeuvres",
+        "French pastry used as a base for hors d’oeuvres",
+        "Generic name for bite-size, savoury finger food."
+      ],
+      "correct": 3,
+      "correct_letters": [
+        "d"
+      ],
+      "answer_texts": [
+        "Generic name for bite-size, savoury finger food."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following culinary terms describes a wide range of small items eaten before an entrée or main course and often regarded as being a synonym for ‘appetisers’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Gazpachos",
+        "Brioches",
+        "Hors d’oeuvres",
+        "Confits."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Hors d’oeuvres"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a definition for the culinary tern ‘Tapas’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Small pastry-based appetisers",
+        "Spanish-style snacks",
+        "Tomato and pasta salad",
+        "Trout and perch and salmon salad."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Spanish-style snacks"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following culinary terms describes a ‘Classical salad’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "A traditional salad based on a French heritage",
+        "A traditional salad re-imagined with a modern twist",
+        "A popular salad that most people know of",
+        "Any salad where the recipe is 50 years or more old."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "A traditional salad based on a French heritage"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are examples of contents of date codes and rotation labels for stock? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Description of food item",
+        "Date and time produced",
+        "Ingredients",
+        "Use By or Best Before date."
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Description of food item",
+        "Date and time produced",
+        "Use By or Best Before date."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following represents the historic and cultural origin of Tabouli (salad)? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "France",
+        "Middle East",
+        "Greece",
+        "Mexico."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Middle East"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following represents the historic and cultural origin of Caprese salad? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "America",
+        "China",
+        "Germany",
+        "Italy."
+      ],
+      "correct": 3,
+      "correct_letters": [
+        "d"
+      ],
+      "answer_texts": [
+        "Italy."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following represents the historic and cultural origin of Niçoise salad? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "England",
+        "France",
+        "Australia",
+        "Africa."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "France"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following represents the historic and cultural origin of Mozzarella Sticks and Buffalo Chicken Wings? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "America",
+        "Mexico",
+        "Italy",
+        "Spain."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "America"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following represents the historic and cultural origin of Sauerkraut balls? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Turkey",
+        "Russia",
+        "Sweden",
+        "Germany."
+      ],
+      "correct": 3,
+      "correct_letters": [
+        "d"
+      ],
+      "answer_texts": [
+        "Germany."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following represents the historic and cultural origin of Spanakopita? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Italian",
+        "Greece",
+        "Turkey",
+        "Spain."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Greece"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are the ‘appearance and presentation characteristics’ of appetisers and salads? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Balance",
+        "Quantity",
+        "Colour",
+        "Contrast."
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Balance",
+        "Colour",
+        "Contrast."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Caesar Salad with Anchovies’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Classical salad",
+        "Classical salad variation",
+        "Contemporary salad",
+        "Contemporary salad variation."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Classical salad variation"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Waldorf Salad’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Classical salad",
+        "Classical salad variation",
+        "Contemporary salad",
+        "Contemporary salad variation."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Classical salad"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Roast Vegetable and Couscous Salad’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Classical salad",
+        "Classical salad variation",
+        "Contemporary salad",
+        "Contemporary salad variation."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Contemporary salad"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Cold Roasted Beetroot and Blue Cheese Salad’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Classical salad",
+        "Classical salad variation",
+        "Contemporary salad",
+        "Contemporary salad variation."
+      ],
+      "correct": 3,
+      "correct_letters": [
+        "d"
+      ],
+      "answer_texts": [
+        "Contemporary salad variation."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is ‘Devilled Eggs’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Contemporary appetiser",
+        "Classical appetiser variation",
+        "Classical appetiser",
+        "Contemporary appetiser variation."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Classical appetiser"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Shrimp with Creamy Kale Sauce’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Classical appetiser",
+        "Classical appetiser variation",
+        "Contemporary appetiser",
+        "Contemporary appetiser variation."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Classical appetiser variation"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Crisp Polenta Bites with Olive Tapenade’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Contemporary appetiser",
+        "Classical appetiser variation",
+        "Classical appetiser",
+        "Contemporary appetiser variation."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Contemporary appetiser"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following is a ‘Crispy Cheese Twists with Bacon and Rosemary’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Classical appetiser",
+        "Contemporary appetiser variation",
+        "Contemporary appetiser",
+        "Classical appetiser variation."
+      ],
+      "correct": [
+        1,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Contemporary appetiser variation",
+        "Classical appetiser variation."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are generic freshness and quality indicators for salads? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Limp (‘wilted’) leaves",
+        "No blemishes",
+        "No off aroma",
+        "Enzymic browning."
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Limp (‘wilted’) leaves",
+        "No blemishes",
+        "No off aroma",
+        "Enzymic browning."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are generic indicators of freshness and quality indicators for appetisers? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Fresh, crisp bases",
+        "Dry, hard bases",
+        "Vibrant colours",
+        "Colours bleeding into one another."
+      ],
+      "correct": [
+        0,
+        2
+      ],
+      "correct_letters": [
+        "a",
+        "c"
+      ],
+      "answer_texts": [
+        "Fresh, crisp bases",
+        "Vibrant colours"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are service styles for appetisers? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Buffet",
+        "In tureens",
+        "Plate service",
+        "On an hors d’oeuvres trolley."
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Buffet",
+        "Plate service",
+        "On an hors d’oeuvres trolley."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are service styles for side salads? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Plate service",
+        "Family service",
+        "Flambé",
+        "Buffet."
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Plate service",
+        "Family service",
+        "Buffet."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following appetisers are ‘sweet’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Vanilla petit fours",
+        "Mini quiches",
+        "Stuffed mushrooms",
+        "Samosas"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Vanilla petit fours"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following appetisers are ‘savoury’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Vanilla petit fours",
+        "Mini quiches",
+        "Stuffed mushrooms",
+        "Samosas."
+      ],
+      "correct": [
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Mini quiches",
+        "Stuffed mushrooms",
+        "Samosas."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are the five basic tastes? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Salty, rancid, sour, bland, sweet",
+        "Umami, insipid, salty, sour, sweet",
+        "Salty, sweet, sour, bitter, umami",
+        "Umami, spicey, rich, sweet."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Salty, sweet, sour, bitter, umami"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Which of the following describes the taste of ‘Fruit Salad with Mint Dressing’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Salty",
+        "Sweet",
+        "Sour",
+        "Bitter."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Sweet"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following can give appetisers a ‘crunchy’ texture? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Croutons",
+        "Fried bases",
+        "Baked bases",
+        "Walnuts."
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Croutons",
+        "Fried bases",
+        "Baked bases",
+        "Walnuts."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following describes the texture that pasta should be in a salad? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Soft",
+        "Hard",
+        "Crunchy",
+        "Creamy."
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "Soft"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following describes the texture that apples should have in a fruit salad? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Crumbly",
+        "Firm",
+        "Crisp",
+        "Mushy."
+      ],
+      "correct": 2,
+      "correct_letters": [
+        "c"
+      ],
+      "answer_texts": [
+        "Crisp"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following can be used to describe the texture of an ingredient as ‘light and airy’? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Fine",
+        "Fluffy",
+        "Flaky",
+        "Fairy."
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Fluffy"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Complete the table below by dragging and dropping a ‘Cookery method’ from the box below to the appropriate ‘Definition’ listed in the table. (Select one ‘Cookery method’ for each ‘Definition’)",
+      "type": "matching_table",
+      "subquestions": [
+        {
+          "prompt": "Cooking through radiation of heat from beneath using a hot plate, grill or griddle.",
+          "answer": "Grilling"
+        },
+        {
+          "prompt": "Cooking the food by immersing it in hot fat/oil.",
+          "answer": "Deep-frying"
+        },
+        {
+          "prompt": "Cooking in a sealed container through heat conduction using steam either at atmospheric pressure or under higher pressure.",
+          "answer": "Steaming"
+        },
+        {
+          "prompt": "Cooking by completely covering the items in liquid at 93°C to 95°C.",
+          "answer": "Poaching"
+        },
+        {
+          "prompt": "Cooking in an oven, or on a spit while basting with fat/oil.",
+          "answer": "Roasting"
+        },
+        {
+          "prompt": "Cooking while submerged in water at 100°C.",
+          "answer": "Boiling"
+        },
+        {
+          "prompt": "Cooking food by dry heat in an oven.",
+          "answer": "Baking"
+        }
+      ]
+    },
+    {
+      "question": "Complete the table below by dragging and dropping a ‘Garnish’ from the box below to the appropriate ‘Dressings/Sauces’ listed in the table. (Select one ‘Garnish’ for each ‘Dressing/Sauce’)",
+      "type": "matching_table",
+      "subquestions": [
+        {
+          "prompt": "Mayonnaise.",
+          "answer": "Herbs such as chives"
+        },
+        {
+          "prompt": "Vinaigrette.",
+          "answer": "Thinly sliced vegetables – chiffonade or julienne."
+        },
+        {
+          "prompt": "Niçoise.",
+          "answer": "Nuts – roasted/roasted and chopped."
+        },
+        {
+          "prompt": "Ranch.",
+          "answer": "Croutons."
+        },
+        {
+          "prompt": "Caesar.",
+          "answer": "Anchovies and eggs"
+        },
+        {
+          "prompt": "Cream/sour cream.",
+          "answer": "Shaved cheese."
+        },
+        {
+          "prompt": "Cheese/blue cheese.",
+          "answer": "Raw vegetables, such as crudites – celery, carrot etc"
+        }
+      ]
+    },
+    {
+      "question": "Which of the following are examples of mise en place requirements for appetisers and salads? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Conduct stocktake and submit food order to management",
+        "Assemble and/or set up required equipment and utensils",
+        "Clean, wash, trim and cut ingredients as required by the recipe",
+        "Obtain, weigh or measure ingredients."
+      ],
+      "correct": [
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Assemble and/or set up required equipment and utensils",
+        "Clean, wash, trim and cut ingredients as required by the recipe",
+        "Obtain, weigh or measure ingredients."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are protocols that need to apply to the plating for table service of appetisers for practicality of service and customer consumption? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Balance the items on the plate for visual appeal in terms of shape and colour",
+        "Control portion sizes and items so all plates are identical for the same menu item",
+        "Arrange plating of appetisers so they look the same for the same menu items",
+        "Use different serviceware/plates for the same menu item for each guest."
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "c"
+      ],
+      "answer_texts": [
+        "Balance the items on the plate for visual appeal in terms of shape and colour",
+        "Control portion sizes and items so all plates are identical for the same menu item",
+        "Arrange plating of appetisers so they look the same for the same menu items"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are possible service protocols when plating canapés for service on platters at a function? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Do not overfill the platter",
+        "Double-stack canapés to give the platter height and an added dimension and eye appeal",
+        "Provide an assortment of canapés on each platter",
+        "Individual canapés should not touch each other"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Do not overfill the platter",
+        "Provide an assortment of canapés on each platter",
+        "Individual canapés should not touch each other"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following protocols apply to the plating of a compound salad for table service in terms of practicality of service and customer consumption? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Construct and garnish the salad in a bowl for service",
+        "Add dressing and/or garnish just before service",
+        "Place individual ingredients of the salad in separate bowls so guests can construct the salad to their liking/preferences",
+        "Ensure sufficient salad to cater for the number of guests at the table."
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Construct and garnish the salad in a bowl for service",
+        "Add dressing and/or garnish just before service",
+        "Ensure sufficient salad to cater for the number of guests at the table."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following protocols apply to plating a salad ready for gueridon service? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Plate up one bowl of prepared salad for each guest at the table ready for them to eat",
+        "Plate up the ingredients of the salad on separate serviceware items for each ingredient without dressing or garnish",
+        "Plate up the dressing for the salad in a small jug",
+        "Plate up the garnish for the salad on a separate plate."
+      ],
+      "correct": [
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Plate up the ingredients of the salad on separate serviceware items for each ingredient without dressing or garnish",
+        "Plate up the dressing for the salad in a small jug",
+        "Plate up the garnish for the salad on a separate plate."
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are appropriate environmental conditions for storing appetiser and salad products to ensure food safety? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "High risk/potentially hazardous foods must be stored under refrigerated storage at or below 5⁰C",
+        "Must be stored in clean, food-grade containers",
+        "Store food on the ground of storerooms or coolrooms because this will be colder than higher locations as hot air rises",
+        "Store salads with dressings added to allow the flavour of the dressing to permeate the ingredients."
+      ],
+      "correct": [
+        0,
+        1
+      ],
+      "correct_letters": [
+        "a",
+        "b"
+      ],
+      "answer_texts": [
+        "High risk/potentially hazardous foods must be stored under refrigerated storage at or below 5⁰C",
+        "Must be stored in clean, food-grade containers"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are appropriate environmental conditions for optimising the shelf life of appetiser and salad products? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Rotate stock following LOFO principles",
+        "Store items at the appropriate humidity for the type of the item",
+        "Protect food from external damage and contamination",
+        "Rotate stock following FIFO principles"
+      ],
+      "correct": [
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Store items at the appropriate humidity for the type of the item",
+        "Protect food from external damage and contamination",
+        "Rotate stock following FIFO principles"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Which of the following are examples of safe operational practices when using equipment to produce vegetable, fruit, egg and farinaceous dishes? (Select the one/s that apply)",
+      "type": "multiple_choice",
+      "options": [
+        "Wear designated personal protective equipment (PPE) and clothing",
+        "Follow manufacturer instructions",
+        "Always wet/damp-down oven gloves/mitts before using them to handle hot items",
+        "Ensure all safety guards are fitted."
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Wear designated personal protective equipment (PPE) and clothing",
+        "Follow manufacturer instructions",
+        "Ensure all safety guards are fitted."
+      ],
+      "required_count": 1
+    }
+  ]
+}

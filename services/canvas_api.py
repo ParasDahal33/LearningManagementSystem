@@ -7,7 +7,7 @@ authentication, course listing, quiz creation, question upload, publishing.
 from __future__ import annotations
 
 import re
-
+import logging
 from canvasapi import Canvas
 from canvasapi.exceptions import CanvasException
 
@@ -180,12 +180,18 @@ def add_question_to_quiz(
             for p in (q.get("pairs") or [])
             if p.get("left", "").strip() and p.get("right", "").strip()
         ]
+        assessor_key = (q.get("assessor_key") or "")
+        # Do NOT append assessor key to the visible question text.
+        # Keep assessor/answer-key only in neutral_comments (metadata).
+        qtext_visible = qtext or ""
         q_params = {
             "question_name": (qtext[:100] if qtext else "Matching"),
-            "question_text": qtext,
+            "question_text": qtext_visible or " ",
             "question_type": "matching_question",
             "points_possible": 1,
             "answers": answers,
+            # keep neutral_comments as metadata too
+            "neutral_comments": assessor_key or "",
         }
         quiz.create_question(question=q_params)
         return
@@ -195,12 +201,20 @@ def add_question_to_quiz(
 
     # --- Essay / Short Answer ---
     if kind == "essay" or len(opts) < 2:
+        # For essay/short-answer, do NOT include assessor/model answer in the visible question text.
+        # Store assessor/model answer only in neutral_comments metadata so it is not shown as the question body.
+        assessor_text = (q.get("assessor_key") or q.get("neutral_comments") or "")
+        qtext_visible = qtext or ""
         q_params = {
             "question_name": (qtext[:100] if qtext else "Question"),
-            "question_text": qtext or " ",
+            "question_text": qtext_visible or " ",
             "question_type": "essay_question",
             "points_possible": 1,
+            "answers": [],
+            "neutral_comments": assessor_text or "",
         }
+        logger = logging.getLogger(__name__)
+        logger.debug("q_params: %s", q_params)
         quiz.create_question(question=q_params)
         return
 

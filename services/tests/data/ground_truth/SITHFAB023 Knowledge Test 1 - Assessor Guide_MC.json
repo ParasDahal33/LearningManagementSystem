@@ -1,0 +1,522 @@
+{
+  "source_file": "SITHFAB023 Knowledge Test 1 - Assessor Guide_MC.docx",
+  "assessment_type": "multiple_choice",
+  "questions": [
+    {
+      "question": "Identify three (3) common types of bars.",
+      "type": "multiple_choice",
+      "options": [
+        "Public bar",
+        "Display bar",
+        "Cocktail bar",
+        "Lounge bar",
+        "Private bar"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Public bar",
+        "Cocktail bar",
+        "Lounge bar"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Identify two (2) different types of service available in most bars.",
+      "type": "multiple_choice",
+      "options": [
+        "Waiter service",
+        "Self service",
+        "Counter service",
+        "Group service"
+      ],
+      "correct": [
+        0,
+        2
+      ],
+      "correct_letters": [
+        "a",
+        "c"
+      ],
+      "answer_texts": [
+        "Waiter service",
+        "Counter service"
+      ],
+      "required_count": 2
+    },
+    {
+      "question": "The term ‘mise en place’ means …",
+      "type": "multiple_choice",
+      "options": [
+        "to put everything in place for bar service",
+        "to put everything away",
+        "to put up everything on display"
+      ],
+      "correct": 0,
+      "correct_letters": [
+        "a"
+      ],
+      "answer_texts": [
+        "to put everything in place for bar service"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What are three (3) possible examples of organisational procedures for displaying stock and ancillary products?",
+      "type": "multiple_choice",
+      "options": [
+        "Displays must display specials, popular products, etc.",
+        "Displays need to be replenished as items are used",
+        "Displays must be used to promote not popular items",
+        "Displays need to include ancillary items that could generate add-on sales",
+        "Displays must not have prices"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Displays must display specials, popular products, etc.",
+        "Displays need to be replenished as items are used",
+        "Displays need to include ancillary items that could generate add-on sales"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Which of the following is NOT an example of ‘mise en place’ procedure.",
+      "type": "multiple_choice",
+      "options": [
+        "Connecting draught beer to service point",
+        "Positioning drip trays under fonts",
+        "Preparing glass racks for service",
+        "Completing requisitioning forms",
+        "Restocking fridges",
+        "Creating or replenishing displays"
+      ],
+      "correct": 3,
+      "correct_letters": [
+        "d"
+      ],
+      "answer_texts": [
+        "Completing requisitioning forms"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What requirement commonly applies to the presentation of packaged beverage, e.g., bottle, stubby, can, etc., to a patron?",
+      "type": "multiple_choice",
+      "options": [
+        "Drink poured in appropriate glasses",
+        "Label facing customer",
+        "Hold beverage with a napkin"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Label facing customer"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Identify five (5) standard requirements that apply to the presentation of beverages in glasses to patrons?",
+      "type": "multiple_choice",
+      "options": [
+        "Glasses not to be over-filled",
+        "Glasses to be held by stem or base",
+        "Glass type to be chosen by patron",
+        "Garnished to be placed in/on glass",
+        "Glasses to be filled by patrons",
+        "Glasses to be clean",
+        "Glasses not to be chipped or cracked"
+      ],
+      "correct": [
+        0,
+        1,
+        3,
+        5,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d",
+        "f",
+        "g"
+      ],
+      "answer_texts": [
+        "Glasses not to be over-filled",
+        "Glasses to be held by stem or base",
+        "Garnished to be placed in/on glass",
+        "Glasses to be clean",
+        "Glasses not to be chipped or cracked"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Identify five (5) examples of closing procedures of a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Disconnect draught beer",
+        "Turn on glasswasher to wash glasses over night",
+        "Wash drip trays, post-mix machines, ice buckets, etc",
+        "Requisition stock",
+        "Place bar towels to dry for next session",
+        "Dispose rubbish",
+        "Dispose or recycle empty bottles and cans"
+      ],
+      "correct": [
+        0,
+        2,
+        3,
+        5,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d",
+        "f",
+        "g"
+      ],
+      "answer_texts": [
+        "Disconnect draught beer",
+        "Wash drip trays, post-mix machines, ice buckets, etc",
+        "Requisition stock",
+        "Dispose rubbish",
+        "Dispose or recycle empty bottles and cans"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "What is the standard procedure in a bar for replenishing stock used during service?",
+      "type": "multiple_choice",
+      "options": [
+        "Making a list of required drinks on notice board",
+        "Completing a requisition form with bar name, date, items required, brand, size, and quantity",
+        "Verbally inform bar supervisor which items are required"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "Completing a requisition form with bar name, date, items required, brand, size, and quantity"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "Identify three (3) key requirements you may need to prepare a variety of mixed drinks in a bar.",
+      "type": "multiple_choice",
+      "options": [
+        "Different glass types for variety of drinks",
+        "Appropriate garnishes for the type of drinks served",
+        "Ice making machine",
+        "Variety of ingredients for alcoholic and non-alcoholic drinks",
+        "Drink mats and coasters",
+        "Drink decorations such as umbrellas, straws, etc"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Different glass types for variety of drinks",
+        "Appropriate garnishes for the type of drinks served",
+        "Variety of ingredients for alcoholic and non-alcoholic drinks"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are three (3) key requirements you may need to prepare for draught beer service in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Put drip trays under taps",
+        "Complete tasks in the cellar such as tapping, connecting beer and gas",
+        "Check operation of the draught beer dispensing and refrigeration system",
+        "Obtain sufficient suitable glassware",
+        "Pull beer to service point"
+      ],
+      "correct": [
+        1,
+        2,
+        4
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "e"
+      ],
+      "answer_texts": [
+        "Complete tasks in the cellar such as tapping, connecting beer and gas",
+        "Check operation of the draught beer dispensing and refrigeration system",
+        "Pull beer to service point"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "Identify five (5) examples of edible garnishes that you may need to be prepared for a cocktail bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Lemons – slices, twists, wedges, wheels",
+        "Oranges – slices, twists, wedges, wheels",
+        "Lime slices",
+        "Citrus peel",
+        "Mint leaves",
+        "Dehydrated flower petals",
+        "Salt and pepper"
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "c",
+        "e",
+        "g"
+      ],
+      "answer_texts": [
+        "Lemons – slices, twists, wedges, wheels",
+        "Oranges – slices, twists, wedges, wheels",
+        "Lime slices",
+        "Mint leaves",
+        "Salt and pepper"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Identify three (3) examples of non-edible accompaniments that may be served with a drink in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Straws",
+        "Nutmeg",
+        "Flag picks",
+        "Swizzle sticks",
+        "Mint leaves"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Straws",
+        "Flag picks",
+        "Swizzle sticks"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What size glass is commonly used for the service of fortified wines in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "30mls",
+        "60mls",
+        "100mls",
+        "120mls"
+      ],
+      "correct": 1,
+      "correct_letters": [
+        "b"
+      ],
+      "answer_texts": [
+        "60mls"
+      ],
+      "required_count": 1
+    },
+    {
+      "question": "What are three (3) examples of fortified wines?",
+      "type": "multiple_choice",
+      "options": [
+        "Port",
+        "Rose",
+        "Muscat",
+        "Sherry",
+        "Sparkling"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Port",
+        "Muscat",
+        "Sherry"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are five (5) checks you might make on credit and EFTPOS equipment prior to trade in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Turned on",
+        "Connected",
+        "Printer roll functional",
+        "Credit card terminal available",
+        "Security mode deactivated",
+        "All of the above"
+      ],
+      "correct": 5,
+      "correct_letters": [
+        "f"
+      ],
+      "answer_texts": [
+        "All of the above"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Identify five (5) examples of non-alcoholic beverages that may be served in a bar.",
+      "type": "multiple_choice",
+      "options": [
+        "Aerated waters",
+        "Cordials",
+        "Cider",
+        "Cocktails",
+        "Milk",
+        "Coffee",
+        "Mocktails"
+      ],
+      "correct": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "e",
+        "f",
+        "g"
+      ],
+      "answer_texts": [
+        "Aerated waters",
+        "Cordials",
+        "Milk",
+        "Coffee",
+        "Mocktails"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "What are three (3) requirements you may need to prepare to serve a variety of spirits in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Optics",
+        "Corkscrew",
+        "Jiggers",
+        "Stem pourers",
+        "Service cloths/napkins"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "Optics",
+        "Jiggers",
+        "Stem pourers"
+      ],
+      "required_count": 3
+    },
+    {
+      "question": "What are five (5) requirements you may need to prepare to serve a variety table wines in a bar?",
+      "type": "multiple_choice",
+      "options": [
+        "Bulk wine dispensing system",
+        "Corkscrew",
+        "Optics",
+        "Carafes",
+        "Stem pourers"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "correct_letters": [
+        "a",
+        "b",
+        "d"
+      ],
+      "answer_texts": [
+        "Bulk wine dispensing system",
+        "Corkscrew",
+        "Carafes"
+      ],
+      "required_count": 5
+    },
+    {
+      "question": "Select three (3) crucial steps to check a POS system as an opening of the bar procedure.",
+      "type": "multiple_choice",
+      "options": [
+        "The power is turned on",
+        "The date and time a correct on the system",
+        "The system is linked to order points",
+        "The scanner is fully operational",
+        "The EFTPOS is placed on counter"
+      ],
+      "correct": [
+        1,
+        2,
+        3
+      ],
+      "correct_letters": [
+        "b",
+        "c",
+        "d"
+      ],
+      "answer_texts": [
+        "The date and time a correct on the system",
+        "The system is linked to order points",
+        "The scanner is fully operational"
+      ],
+      "required_count": 3
+    }
+  ]
+}

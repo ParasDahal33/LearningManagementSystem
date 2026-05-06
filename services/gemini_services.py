@@ -110,7 +110,7 @@ _BASE_PROMPT = (
 )
 
 _MAX_BLOCK_ITEMS = 170
-_OVERLAP = 50
+_OVERLAP = 80
 
 def _build_blocks(n: int) -> list[tuple[int, int]]:
     blocks: list[tuple[int, int]] = []
