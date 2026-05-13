@@ -124,6 +124,63 @@ _SEGMENT_SCHEMA = {
     "required": ["questions"],
 }
 
+rubrics_schema = {
+    "type": "object",
+    "additionalProperties": False,
+    "properties": {
+        "assignments": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "title": {"type": "string"},
+                    "description_html": {"type": "string"},
+                    "submission_types": {"type": "array", "items": {"type": "string"}},
+                    "rubric": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "additionalProperties": False,
+                            "properties": {
+                                "description": {"type": "string"},
+                                "ratings": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": False,
+                                        "properties": {
+                                            "description": {"type": "string"},
+                                            "points": {"type": "number"}
+                                        },
+                                        "required": ["description", "points"]
+                                    }
+                                }
+                            },
+                            "required": ["description", "ratings"]
+                        }
+                    }
+                },
+                "required": ["title", "description_html", "submission_types", "rubric"]
+            }
+        }
+    },
+    "required": ["assignments"],
+}
+
+rubrics_prompt = (
+    "You are an expert Instructional Designer and Canvas LMS Administrator. "
+    "Your task is to extract assessment instructions, submission requirements, and grading rubrics from the provided Assessor Guide document and format them into a structured JSON object that can be easily mapped to Canvas LMS Assignments and Rubrics.\n"
+    "Extraction Rules:\n"
+    "Identify Assignments: Treat each major \"Stage\" or \"Project\" (e.g., \"Stage 1\", \"Stage 2\") as a separate Canvas Assignment.\n"
+    "Extract Descriptions: For each assignment, extract the \"Scenario\" and \"Learner instructions\" to form the Canvas Assignment Description. Format the description using basic HTML tags (like <p>, <ul>, <li>, <strong>) so it can be directly pasted into the Canvas Rich Content Editor.\n"
+    "Extract Submission Requirements: Clearly list what the student needs to submit under a \"Submission Requirements\" heading within the description.\n"
+    "Extract Rubrics: Locate the \"Project Checklist\" or grading criteria table associated with each Stage.\n"
+    "Extract each row/question as a separate Rubric Criterion.\n"
+    "The ratings for each criterion should be \"Satisfactory\" (1 point) and \"Not Yet Satisfactory\" (0 points) based on the S/NYS columns in the document."
+    )
+
+
 
 _BASE_PROMPT = (
     "You are an expert assessment-question parser for Canvas LMS.\n"
@@ -558,7 +615,18 @@ def v3_ai_extract_all_openai(items: list[dict], cfg: OpenAIConfig) -> tuple[list
                         "kind": {"type": "string", "enum": ["mcq", "essay", "matching"]},
                         "stem": {"type": "array", "items": {"type": "integer"}},
                         "options": {"type": "array", "items": {"type": "array", "items": {"type": "integer"}}},
-                        "pairs": {"type": "array", "items": {"type": "object", "properties": {"left": {"type": "integer"}, "right": {"type": "integer"}}, "required": ["left", "right"]}},
+                        "pairs": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": False,
+                                "properties": {
+                                    "left": {"type": "integer"},
+                                    "right": {"type": "integer"}
+                                },
+                                "required": ["left", "right"]
+                            }
+                        },
                         "neutral_comments": {"type": "string"},
                     },
                     "required": ["kind", "stem", "options", "pairs", "neutral_comments"],

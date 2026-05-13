@@ -13,7 +13,9 @@ import streamlit as st
 
 from core.utils import dedupe_questions
 from parsers.docx_extractor import extract_items_with_red_v1, build_description_v1, v2_extract_items_with_red, v3_extract_items_with_red
-from parsers.assessor_guide_parser import parse_assessor_guide
+from services.openai_services import OpenAIConfig, v3_ai_segment_items_openai
+from services.openai_services import rubrics_schema, rubrics_prompt, openai_responses_json_schema
+from services.gemini_services import GeminiConfig, v3_ai_segment_items_gemini, gemini_responses_json_schema
 from parsers.mcq_parsers import (
     parse_mcq_questions_v1,
     parse_essay_questions_v1,
@@ -30,8 +32,6 @@ from parsers.matching_parser import (
     v3_parse_table_characteristics_as_essays,
     v3_collect_ignore_texts_from_forced_tables,
 )
-from services.openai_services import OpenAIConfig, v3_ai_segment_items_openai
-from services.gemini_services import GeminiConfig, v3_ai_segment_items_gemini
 from core.utils import (
     v2_split_items_on_internal_qnums,
     v2c_clean_text,
@@ -80,14 +80,52 @@ def render_parse_section(parser_mode: str) -> None:
             ai_log: list[str] = []
             removed_dupes = 0
 
-            # If user requested assessor guide structured import, use that parser and store preview
+            # If user requested assessor guide structured import, call the Rubrics JSON-schema extractor
             if st.session_state.get("assessor_import"):
-                parsed = parse_assessor_guide(docx_path)
-                st.session_state.assessor_parse = parsed
-                st.session_state.questions = []
-                st.session_state.parsed_ok = True
-                st.session_state.parse_run_id += 1
-                print("DEBUG: Assessor guide parsed: sections=", len(parsed.get("sections", [])), "rubrics=", len(parsed.get("rubrics", [])), "feedback=", len(parsed.get("feedback_lines", [])))
+                # Build a doc text payload: use stable v1 extraction (paragraph order)
+                text_items = extract_items_with_red_v1(docx_path)
+                lines = [it.get("text", "") for it in text_items if it.get("text")]
+                prompt = rubrics_prompt + "\n\nDOCUMENT:\n" + "\n".join(lines)
+
+                ai_provider = st.session_state.get("ai_provider", "OpenAI")
+                parsed = None
+                if ai_provider == "OpenAI":
+                    if not (st.session_state.openai_api_key or "").strip():
+                        raise RuntimeError("Assessor import (rubrics) requires an OpenAI API key.")
+                    cfg = OpenAIConfig(
+                        api_key=st.session_state.openai_api_key.strip(),
+                        model=(st.session_state.openai_model or "gpt-4o-mini").strip(),
+                        base_url=(st.session_state.openai_base_url or "https://api.openai.com").strip(),
+                    )
+                    data, err = openai_responses_json_schema(prompt, "rubrics", rubrics_schema, cfg)
+                    if err:
+                        print("DEBUG: Rubrics extraction failed:", err)
+                        st.error(f"Rubrics extraction failed: {err}")
+                    else:
+                        parsed = data
+                else:
+                    if not (st.session_state.gemini_api_key or "").strip():
+                        raise RuntimeError("Assessor import (rubrics) requires a Gemini API key.")
+                    cfg_g = GeminiConfig(
+                        api_key=st.session_state.gemini_api_key.strip(),
+                        model=(st.session_state.gemini_model or "gemini-1.5-flash").strip(),
+                        base_url=(st.session_state.gemini_base_url or "https://generativelanguage.googleapis.com").strip(),
+                    )
+                    data, err = gemini_responses_json_schema(prompt, rubrics_schema, cfg_g)
+                    if err:
+                        print("DEBUG: Rubrics extraction (Gemini) failed:", err)
+                        st.error(f"Rubrics extraction failed: {err}")
+                    else:
+                        parsed = data
+
+                if parsed:
+                    st.session_state.assessor_parse = parsed
+                    st.session_state.questions = []
+                    st.session_state.parsed_ok = True
+                    st.session_state.parse_run_id += 1
+                    # Log counts when possible
+                    n_assign = len(parsed.get("assignments", [])) if isinstance(parsed.get("assignments"), list) else 0
+                    print("DEBUG: Rubrics parsed: assignments=", n_assign)
             else:
                 # ------------------------------------------------------------------ v1
                 if parser_mode.startswith("v1"):
@@ -135,7 +173,7 @@ def render_parse_section(parser_mode: str) -> None:
                             raise RuntimeError("v3 (AI+fallback) requires an OpenAI API key.")
                         cfg = OpenAIConfig(
                             api_key=st.session_state.openai_api_key.strip(),
-                            model=(st.session_state.openai_model or "gpt-4.1-mini").strip(),
+                            model=(st.session_state.openai_model or "gpt-4o-mini").strip(),
                             base_url=(st.session_state.openai_base_url or "https://api.openai.com").strip(),
                         )
                         ai_qs, ai_log = v3_ai_segment_items_openai(ai_input, cfg)
@@ -175,35 +213,41 @@ def render_parse_section(parser_mode: str) -> None:
         log_box.code(buf.getvalue())
         st.success(f"✅ Parsed {len(st.session_state.questions)} questions.")
 
-        # If we parsed an assessor guide, show a preview panel
+        # If we parsed an assessor guide (rubrics schema), show a preview panel
         if st.session_state.get("assessor_parse"):
             parsed = st.session_state.assessor_parse
-            st.subheader("Assessor Guide — Parsed Preview")
+            st.subheader("Assessor Guide  Parsed Preview")
             cols = st.columns([2, 1])
             with cols[0]:
-                st.markdown("**Sections**")
-                for s in parsed.get("sections", []):
-                    title = s.get("title") or "(no title)"
-                    with st.expander(f"{s.get('type', 'section').title()}: {title}"):
-                        for p in s.get("paragraphs", [])[:20]:
-                            st.write(p)
-                        for t in s.get("tables", []):
-                            headers = t.get("headers", [])
-                            st.caption("Table: " + ", ".join(headers[:6]))
+                st.markdown("**Assignments / Stages**")
+                assignments = parsed.get("assignments") if isinstance(parsed.get("assignments"), list) else []
+                if not assignments:
+                    st.info("No assignments found in parsed output.")
+                for a in assignments:
+                    title = a.get("title") or "(no title)"
+                    with st.expander(title):
+                        desc = a.get("description_html") or a.get("description") or ""
+                        if desc:
+                            st.markdown(desc, unsafe_allow_html=True)
+                        sub_types = a.get("submission_types") or []
+                        if sub_types:
+                            st.caption("Submission types: " + ", ".join(sub_types))
+                        rubric = a.get("rubric") or []
+                        if rubric:
+                            st.markdown("**Rubric**")
+                            for r in rubric:
+                                desc_r = r.get("description") or ""
+                                st.write(f"- {desc_r}")
+                                ratings = r.get("ratings") or []
+                                if ratings:
+                                    st.write("  Ratings:")
+                                    for rt in ratings:
+                                        st.write(f"    - {rt.get('description')} ({rt.get('points')})")
 
             with cols[1]:
-                st.markdown("**Rubrics**")
-                for r in parsed.get("rubrics", []):
-                    rt = r.get("title") or "(no title)"
-                    tbl = r.get("table", {})
-                    hdrs = tbl.get("headers", [])
-                    st.write(f"- {rt}: {', '.join(hdrs[:6])}")
-
-                st.markdown("**Assessor feedback (red text)**")
-                for f in parsed.get("feedback_lines", [])[:200]:
-                    st.write(f"- {f}")
+                st.markdown("**Raw parsed JSON**")
+                st.write("You can download the structured assignments/rubrics JSON below.")
                 st.divider()
-                # prepare downloadable JSON
                 parsed_json = json.dumps(parsed, indent=2)
                 st.download_button(
                     "Download parsed JSON",
@@ -211,8 +255,14 @@ def render_parse_section(parser_mode: str) -> None:
                     file_name=f"{(st.session_state.docx_filename or 'assessor_guide').rsplit('.',1)[0]}-parsed.json",
                     mime="application/json",
                 )
-                # rubrics-only export
-                rubrics_json = json.dumps(parsed.get("rubrics", []), indent=2)
+                # rubrics-only export (assignments/rubric compact)
+                try:
+                    compact = [
+                        {"title": a.get("title"), "rubric": a.get("rubric", [])} for a in assignments
+                    ]
+                except Exception:
+                    compact = parsed.get("assignments", [])
+                rubrics_json = json.dumps(compact, indent=2)
                 st.download_button(
                     "Download rubrics JSON",
                     data=rubrics_json,
