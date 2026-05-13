@@ -7,6 +7,12 @@ from __future__ import annotations
 import json
 import streamlit as st
 
+from services.canvas_api import (
+    create_canvas_assignment,
+    create_canvas_rubric,
+    validate_rubrics_before_upload,
+)
+
 def render_rubrics_section() -> None:
     if not st.session_state.get("assessor_parse"):
         return
@@ -62,6 +68,56 @@ def render_rubrics_section() -> None:
 
     # Update session state
     st.session_state.assessor_parse["assignments"] = assignments
+
+    # --- Save to Canvas Section ---
+    st.divider()
+    st.subheader("1.2) Save Assessor Guide to Canvas")
+    st.info("This will create one Canvas Assignment and one Rubric for each stage listed above.")
+    
+    col_save1, col_save2 = st.columns([1, 1])
+    save_btn = col_save1.button("💾 Save Assignments & Rubrics to Canvas", type="primary", use_container_width=True)
+
+    if save_btn:
+        problems = validate_rubrics_before_upload(assignments)
+        if problems:
+            st.error("Please fix these issues before uploading:")
+            for p in problems:
+                st.write(f"- {p}")
+        else:
+            course_id = st.session_state.selected_course_id
+            canvas_url = st.session_state.canvas_base_url
+            token = st.session_state.canvas_token
+            
+            success_count = 0
+            progress_bar = st.progress(0)
+            
+            try:
+                for idx, assign in enumerate(assignments):
+                    with st.status(f"Uploading {assign['title']}...", expanded=False) as status:
+                        # 1. Create Assignment
+                        st.write("Creating assignment...")
+                        a_id = create_canvas_assignment(
+                            canvas_url, course_id, token,
+                            name=assign["title"],
+                            description_html=assign["description_html"],
+                            submission_types=assign["submission_types"]
+                        )
+                        
+                        # 2. Create and Associate Rubric
+                        if assign.get("rubric"):
+                            st.write("Creating rubric...")
+                            create_canvas_rubric(
+                                canvas_url, course_id, token,
+                                assignment_id=a_id,
+                                title=f"Rubric: {assign['title']}",
+                                criteria=assign["rubric"]
+                            )
+                        status.update(label=f"✅ {assign['title']} Uploaded", state="complete")
+                        success_count += 1
+                        progress_bar.progress((idx + 1) / len(assignments))
+                st.success(f"Successfully created {success_count} assignments with rubrics!")
+            except Exception as e:
+                st.error(f"Upload failed: {e}")
 
     # Export options
     st.divider()

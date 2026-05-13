@@ -10,6 +10,7 @@ import re
 import logging
 from canvasapi import Canvas
 from canvasapi.exceptions import CanvasException
+from canvasapi.assignment import Assignment
 
 from core.utils import strip_q_prefix
 
@@ -260,3 +261,183 @@ def validate_before_upload(qs: list[dict]) -> list[str]:
             if len(opts) >= 2 and not (q.get("correct") or []):
                 problems.append(f"Q{idx}: no correct answer selected (red not detected or tick ✅).")
     return problems
+
+def validate_rubrics_before_upload(assignments: list[dict]) -> list[str]:
+    """Return a list of human-readable problem strings for Assessor Guide data."""
+    problems: list[str] = []
+    for i, a in enumerate(assignments, start=1):
+        title = (a.get("title") or "").strip()
+        if not title:
+            problems.append(f"Assignment {i}: missing title.")
+        
+        rubric = a.get("rubric") or []
+        for j, crit in enumerate(rubric, start=1):
+            if not (crit.get("description") or "").strip():
+                problems.append(f"Assignment '{title or i}', Criterion {j}: missing description.")
+                
+    return problems
+
+
+
+def create_canvas_assignment(
+    canvas_base_url: str,
+    course_id: str,
+    canvas_token: str,
+    *,
+    name: str,
+    description_html: str = "",
+    submission_types: list[str] | None = None,
+) -> int:
+    """Create a new Assignment and return its id."""
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+    
+    # Default to 'online_upload' if not specified
+    subs = submission_types or ["online_upload"]
+    
+    assignment_obj = {
+        "name": name,
+        "description": description_html,
+        "submission_types": subs,
+        "published": False,
+    }
+    
+    try:
+        assignment = course.create_assignment(assignment=assignment_obj)
+        return assignment.id
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error (Assignment): {e}")
+
+def create_canvas_rubric(
+    canvas_base_url: str,
+    course_id: str,
+    canvas_token: str,
+    assignment_id: int,
+    title: str,
+    criteria: list[dict],
+) -> int:
+    """Create a rubric and associate it with the assignment."""
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+
+    # Convert criteria to the specific nested dictionary format Canvas expects
+    # criteria: [{"description": "...", "ratings": [{"description": "...", "points": ...}]}]
+    canvas_criteria = {}
+    for i, crit in enumerate(criteria):
+        ratings = crit.get("ratings") or []
+        canvas_ratings = {}
+        for j, rate in enumerate(ratings):
+             canvas_ratings[str(j)] = {
+                 "description": rate.get("description", ""),
+                 "points": rate.get("points", 0)
+             }
+        
+        canvas_criteria[str(i)] = {
+            "description": crit.get("description", ""),
+            "ratings": canvas_ratings
+        }
+
+    rubric_params = {
+        "title": title,
+        "data": canvas_criteria
+    }
+    
+    assoc_params = {
+        "association_id": assignment_id,
+        "association_type": "Assignment",
+        "use_for_grading": True,
+        "purpose": "grading"
+    }
+
+    try:
+        # Returns a dict containing 'rubric' and 'rubric_association' objects
+        result = course.create_rubric(rubric=rubric_params, rubric_association=assoc_params)
+        return result['rubric'].id
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error (Rubric): {e}")
+
+
+
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error: {e}")
+
+def create_canvas_assignment(
+    canvas_base_url: str,
+    course_id: str,
+    canvas_token: str,
+    *,
+    name: str,
+    description_html: str = "",
+    submission_types: list[str] | None = None,
+) -> int:
+    """Create a new Assignment and return its id."""
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+    
+    # Default to 'online_upload' if not specified
+    subs = submission_types or ["online_upload"]
+    
+    assignment_obj = {
+        "name": name,
+        "description": description_html,
+        "submission_types": subs,
+        "published": False,
+    }
+    
+    try:
+        assignment = course.create_assignment(assignment=assignment_obj)
+        return assignment.id
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error (Assignment): {e}")
+
+def create_canvas_rubric(
+    canvas_base_url: str,
+    course_id: str,
+    canvas_token: str,
+    assignment_id: int,
+    title: str,
+    criteria: list[dict],
+) -> int:
+    """Create a rubric and associate it with the assignment."""
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+
+    # Convert criteria to the specific nested dictionary format Canvas expects
+    # criteria: [{"description": "...", "ratings": [{"description": "...", "points": ...}]}]
+    canvas_criteria = {}
+    for i, crit in enumerate(criteria):
+        ratings = crit.get("ratings") or []
+        canvas_ratings = {}
+        for j, rate in enumerate(ratings):
+             canvas_ratings[str(j)] = {
+                 "description": rate.get("description", ""),
+                 "points": rate.get("points", 0)
+             }
+        
+        canvas_criteria[str(i)] = {
+            "description": crit.get("description", ""),
+            "ratings": canvas_ratings
+        }
+
+    rubric_params = {
+        "title": title,
+        "data": canvas_criteria
+    }
+    
+    assoc_params = {
+        "association_id": assignment_id,
+        "association_type": "Assignment",
+        "use_for_grading": True,
+        "purpose": "grading"
+    }
+
+    try:
+        # Returns a dict containing 'rubric' and 'rubric_association' objects
+        result = course.create_rubric(rubric=rubric_params, rubric_association=assoc_params)
+        return result['rubric'].id
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error (Rubric): {e}")
+
+
+# ---------------------------------------------------------------------------
+# Questions
