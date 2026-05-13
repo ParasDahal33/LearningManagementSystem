@@ -24,6 +24,7 @@ from core.config import init_session_state
 from ui.sidebar import render_sidebar
 from ui.parse_section import render_parse_section
 from ui.details_section import render_details_section
+from ui.rubrics_section import render_rubrics_section
 from ui.questions_section import render_questions_section
 from ui.save_section import render_save_section
 
@@ -63,10 +64,16 @@ canvas_token = st.session_state.canvas_token
 # Render parse section (handles upload/parse and assessor guide preview)
 render_parse_section(parser_mode)
 
-# Stop early if there are no questions (parse may have populated assessor_parse instead)
-questions = st.session_state.questions or []
-if not questions:
-    st.stop()
+if st.session_state.get("parsed_ok"):
+    # Render rubrics section if assessor data exists
+    if st.session_state.get("assessor_parse"):
+        render_rubrics_section()
+
+    # Stop early if there are no quiz questions (prevents rendering settings/questions for Rubrics mode)
+    questions = st.session_state.questions or []
+    if not questions:
+        st.stop()
+
 
 # Render remaining sections
 render_details_section()
