@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import re
 import logging
+import requests
 from canvasapi import Canvas
 from canvasapi.exceptions import CanvasException
-from canvasapi.assignment import Assignment
 
 from core.utils import strip_q_prefix
 
@@ -36,13 +36,10 @@ def canvas_whoami(canvas_base_url: str, canvas_token: str):
 # Courses
 # ---------------------------------------------------------------------------
 def get_course(canvas_base_url: str, canvas_token: str, course_id: str) -> dict | None:
-    """
-    Retrieve a specific course by ID to verify existence.
-    """
+    """Retrieve a specific course by ID to verify existence."""
     try:
         canvas = Canvas(canvas_base_url, canvas_token)
         course = canvas.get_course(course_id)
-        # Return minimal dict to satisfy potential callers expecting a dict
         return {"id": course.id, "name": getattr(course, "name", "")}
     except Exception:
         return None
@@ -67,7 +64,6 @@ def list_courses(canvas_base_url: str, canvas_token: str) -> list[dict]:
                 }
             )
     except Exception:
-        # Propagate errors (e.g. auth failure) to be caught by the caller
         raise
     return out
 
@@ -80,7 +76,6 @@ def get_existing_quiz_titles(canvas_base_url: str, course_id: str, canvas_token:
     canvas = Canvas(canvas_base_url, canvas_token)
     course = canvas.get_course(course_id)
     titles: set[str] = set()
-    # canvasapi handles pagination automatically
     for q in course.get_quizzes(per_page=100):
         t = getattr(q, "title", "")
         if t:
@@ -157,6 +152,146 @@ def publish_quiz(canvas_base_url: str, course_id: str, canvas_token: str, quiz_i
 
 
 # ---------------------------------------------------------------------------
+# Assignments & Rubrics
+# ---------------------------------------------------------------------------
+def create_canvas_assignment(
+    canvas_base_url: str,
+    course_id: str,
+    canvas_token: str,
+    *,
+    name: str,
+    description_html: str = "",
+    submission_types: list[str] | None = None,
+) -> int:
+    """Create a new Assignment and return its id."""
+    canvas = Canvas(canvas_base_url, canvas_token)
+    course = canvas.get_course(course_id)
+
+    subs = submission_types or ["online_upload"]
+
+    assignment_obj = {
+        "name": name,
+        "description": description_html,
+        "submission_types": subs,
+        "published": False,
+    }
+
+    try:
+        assignment = course.create_assignment(assignment=assignment_obj)
+        return assignment.id
+    except CanvasException as e:
+        raise RuntimeError(f"Canvas API Error (Assignment): {e}")
+
+
+def create_canvas_rubric(
+    canvas_base_url: str,
+    course_id: str,
+    canvas_token: str,
+    assignment_id: int,
+    title: str,
+    criteria: list[dict],
+) -> int:
+    """
+    Create a rubric and associate it with an assignment via direct REST call.
+
+    criteria format:
+        [
+            {
+                "description": "Criterion label",
+                "ratings": [
+                    {"description": "Satisfactory",         "points": 1.0},
+                    {"description": "Not yet satisfactory", "points": 0.0},
+                ]
+            },
+            ...
+        ]
+    Returns the new rubric id.
+    """
+    url = f"{canvas_base_url.rstrip('/')}/api/v1/courses/{course_id}/rubrics"
+    headers = {"Authorization": f"Bearer {canvas_token}"}
+
+    # Canvas expects form-encoded bracket-notation keys, e.g.:
+    #   rubric[title]
+    #   rubric[criteria][0][description]
+    #   rubric[criteria][0][points]
+    #   rubric[criteria][0][ratings][0][description]
+    #   rubric[criteria][0][ratings][0][points]
+    data: list[tuple[str, str]] = [
+        ("rubric[title]", title),
+        ("rubric_association[association_id]", str(assignment_id)),
+        ("rubric_association[association_type]", "Assignment"),
+        ("rubric_association[purpose]", "grading"),
+        ("rubric_association[use_for_grading]", "1"),
+    ]
+
+    for ci, crit in enumerate(criteria):
+        crit_prefix = f"rubric[criteria][{ci}]"
+        data.append((f"{crit_prefix}[description]", crit.get("description", "")))
+
+        ratings = crit.get("ratings") or []
+
+        # Canvas uses the highest points value as the criterion's max points
+        max_pts = max((r.get("points", 0) for r in ratings), default=0)
+        data.append((f"{crit_prefix}[points]", str(max_pts)))
+
+        for ri, rate in enumerate(ratings):
+            rate_prefix = f"{crit_prefix}[ratings][{ri}]"
+            data.append((f"{rate_prefix}[description]", rate.get("description", "")))
+            data.append((f"{rate_prefix}[points]", str(rate.get("points", 0))))
+
+    try:
+        resp = requests.post(url, headers=headers, data=data, timeout=30)
+        resp.raise_for_status()
+        payload = resp.json()
+        return payload["rubric"]["id"]
+    except requests.HTTPError as e:
+        try:
+            body = e.response.json()
+        except Exception:
+            body = e.response.text
+        raise RuntimeError(f"Canvas API Error (Rubric): {e} — {body}") from e
+    except Exception as e:
+        raise RuntimeError(f"Canvas API Error (Rubric): {e}") from e
+
+
+# ---------------------------------------------------------------------------
+# Upload validation
+# ---------------------------------------------------------------------------
+def validate_before_upload(qs: list[dict]) -> list[str]:
+    """Return a list of human-readable problem strings (empty = OK to upload)."""
+    problems: list[str] = []
+    for idx, q in enumerate(qs, start=1):
+        kind = (q.get("kind") or "").lower()
+        qt = (q.get("question") or "").strip()
+        if len(qt) < 10:
+            problems.append(f"Q{idx}: question text too short.")
+        if kind == "matching":
+            if len(q.get("pairs") or []) < 2:
+                problems.append(f"Q{idx}: matching needs at least 2 pairs.")
+        elif kind != "essay":
+            opts = q.get("options") or []
+            if len(opts) >= 2 and not (q.get("correct") or []):
+                problems.append(f"Q{idx}: no correct answer selected (red not detected or tick ✅).")
+    return problems
+
+
+def validate_rubrics_before_upload(assignments: list[dict]) -> list[str]:
+    """Return a list of human-readable problem strings for Assessor Guide data."""
+    problems: list[str] = []
+    for i, a in enumerate(assignments, start=1):
+        title = (a.get("title") or "").strip()
+        if not title:
+            problems.append(f"Assignment {i}: missing title.")
+
+        rubric = a.get("rubric") or []
+        for j, crit in enumerate(rubric, start=1):
+            if not (crit.get("description") or "").strip():
+                problems.append(f"Assignment '{title or i}', Criterion {j}: missing description.")
+
+    return problems
+
+
+# ---------------------------------------------------------------------------
 # Questions
 # ---------------------------------------------------------------------------
 def add_question_to_quiz(
@@ -177,22 +312,21 @@ def add_question_to_quiz(
     # --- Matching ---
     if kind == "matching":
         answers = [
-            {"answer_match_left": p.get("left", "").strip(), "answer_match_right": p.get("right", "").strip(), "answer_weight": 100}
+            {
+                "answer_match_left": p.get("left", "").strip(),
+                "answer_match_right": p.get("right", "").strip(),
+                "answer_weight": 100,
+            }
             for p in (q.get("pairs") or [])
             if p.get("left", "").strip() and p.get("right", "").strip()
         ]
-        assessor_key = (q.get("assessor_key") or "")
-        # Do NOT append assessor key to the visible question text.
-        # Keep assessor/answer-key only in neutral_comments (metadata).
-        qtext_visible = qtext or ""
         q_params = {
             "question_name": (qtext[:100] if qtext else "Matching"),
-            "question_text": qtext_visible or " ",
+            "question_text": qtext or " ",
             "question_type": "matching_question",
             "points_possible": 1,
             "answers": answers,
-            # keep neutral_comments as metadata too
-            "neutral_comments": assessor_key or "",
+            "neutral_comments": q.get("assessor_key") or "",
         }
         quiz.create_question(question=q_params)
         return
@@ -202,20 +336,16 @@ def add_question_to_quiz(
 
     # --- Essay / Short Answer ---
     if kind == "essay" or len(opts) < 2:
-        # For essay/short-answer, do NOT include assessor/model answer in the visible question text.
-        # Store assessor/model answer only in neutral_comments metadata so it is not shown as the question body.
-        assessor_text = (q.get("assessor_key") or q.get("neutral_comments") or "")
-        qtext_visible = qtext or ""
+        assessor_text = q.get("assessor_key") or q.get("neutral_comments") or ""
         q_params = {
             "question_name": (qtext[:100] if qtext else "Question"),
-            "question_text": qtext_visible or " ",
+            "question_text": qtext or " ",
             "question_type": "essay_question",
             "points_possible": 1,
             "answers": [],
             "neutral_comments": assessor_text or "",
         }
-        logger = logging.getLogger(__name__)
-        logger.debug("q_params: %s", q_params)
+        logging.getLogger(__name__).debug("q_params: %s", q_params)
         quiz.create_question(question=q_params)
         return
 
@@ -240,204 +370,3 @@ def add_question_to_quiz(
         "answers": answers,
     }
     quiz.create_question(question=q_params)
-
-
-# ---------------------------------------------------------------------------
-# Upload validation
-# ---------------------------------------------------------------------------
-def validate_before_upload(qs: list[dict]) -> list[str]:
-    """Return a list of human-readable problem strings (empty = OK to upload)."""
-    problems: list[str] = []
-    for idx, q in enumerate(qs, start=1):
-        kind = (q.get("kind") or "").lower()
-        qt = (q.get("question") or "").strip()
-        if len(qt) < 10:
-            problems.append(f"Q{idx}: question text too short.")
-        if kind == "matching":
-            if len(q.get("pairs") or []) < 2:
-                problems.append(f"Q{idx}: matching needs at least 2 pairs.")
-        elif kind != "essay":
-            opts = q.get("options") or []
-            if len(opts) >= 2 and not (q.get("correct") or []):
-                problems.append(f"Q{idx}: no correct answer selected (red not detected or tick ✅).")
-    return problems
-
-def validate_rubrics_before_upload(assignments: list[dict]) -> list[str]:
-    """Return a list of human-readable problem strings for Assessor Guide data."""
-    problems: list[str] = []
-    for i, a in enumerate(assignments, start=1):
-        title = (a.get("title") or "").strip()
-        if not title:
-            problems.append(f"Assignment {i}: missing title.")
-        
-        rubric = a.get("rubric") or []
-        for j, crit in enumerate(rubric, start=1):
-            if not (crit.get("description") or "").strip():
-                problems.append(f"Assignment '{title or i}', Criterion {j}: missing description.")
-                
-    return problems
-
-
-
-def create_canvas_assignment(
-    canvas_base_url: str,
-    course_id: str,
-    canvas_token: str,
-    *,
-    name: str,
-    description_html: str = "",
-    submission_types: list[str] | None = None,
-) -> int:
-    """Create a new Assignment and return its id."""
-    canvas = Canvas(canvas_base_url, canvas_token)
-    course = canvas.get_course(course_id)
-    
-    # Default to 'online_upload' if not specified
-    subs = submission_types or ["online_upload"]
-    
-    assignment_obj = {
-        "name": name,
-        "description": description_html,
-        "submission_types": subs,
-        "published": False,
-    }
-    
-    try:
-        assignment = course.create_assignment(assignment=assignment_obj)
-        return assignment.id
-    except CanvasException as e:
-        raise RuntimeError(f"Canvas API Error (Assignment): {e}")
-
-def create_canvas_rubric(
-    canvas_base_url: str,
-    course_id: str,
-    canvas_token: str,
-    assignment_id: int,
-    title: str,
-    criteria: list[dict],
-) -> int:
-    """Create a rubric and associate it with the assignment."""
-    canvas = Canvas(canvas_base_url, canvas_token)
-    course = canvas.get_course(course_id)
-
-    # Convert criteria to the specific nested dictionary format Canvas expects
-    # criteria: [{"description": "...", "ratings": [{"description": "...", "points": ...}]}]
-    canvas_criteria = {}
-    for i, crit in enumerate(criteria):
-        ratings = crit.get("ratings") or []
-        canvas_ratings = {}
-        for j, rate in enumerate(ratings):
-             canvas_ratings[str(j)] = {
-                 "description": rate.get("description", ""),
-                 "points": rate.get("points", 0)
-             }
-        
-        canvas_criteria[str(i)] = {
-            "description": crit.get("description", ""),
-            "ratings": canvas_ratings
-        }
-
-    rubric_params = {
-        "title": title,
-        "data": canvas_criteria
-    }
-    
-    assoc_params = {
-        "association_id": assignment_id,
-        "association_type": "Assignment",
-        "use_for_grading": True,
-        "purpose": "grading"
-    }
-
-    try:
-        # Returns a dict containing 'rubric' and 'rubric_association' objects
-        result = course.create_rubric(rubric=rubric_params, rubric_association=assoc_params)
-        return result['rubric'].id
-    except CanvasException as e:
-        raise RuntimeError(f"Canvas API Error (Rubric): {e}")
-
-
-
-    except CanvasException as e:
-        raise RuntimeError(f"Canvas API Error: {e}")
-
-def create_canvas_assignment(
-    canvas_base_url: str,
-    course_id: str,
-    canvas_token: str,
-    *,
-    name: str,
-    description_html: str = "",
-    submission_types: list[str] | None = None,
-) -> int:
-    """Create a new Assignment and return its id."""
-    canvas = Canvas(canvas_base_url, canvas_token)
-    course = canvas.get_course(course_id)
-    
-    # Default to 'online_upload' if not specified
-    subs = submission_types or ["online_upload"]
-    
-    assignment_obj = {
-        "name": name,
-        "description": description_html,
-        "submission_types": subs,
-        "published": False,
-    }
-    
-    try:
-        assignment = course.create_assignment(assignment=assignment_obj)
-        return assignment.id
-    except CanvasException as e:
-        raise RuntimeError(f"Canvas API Error (Assignment): {e}")
-
-def create_canvas_rubric(
-    canvas_base_url: str,
-    course_id: str,
-    canvas_token: str,
-    assignment_id: int,
-    title: str,
-    criteria: list[dict],
-) -> int:
-    """Create a rubric and associate it with the assignment."""
-    canvas = Canvas(canvas_base_url, canvas_token)
-    course = canvas.get_course(course_id)
-
-    # Convert criteria to the specific nested dictionary format Canvas expects
-    # criteria: [{"description": "...", "ratings": [{"description": "...", "points": ...}]}]
-    canvas_criteria = {}
-    for i, crit in enumerate(criteria):
-        ratings = crit.get("ratings") or []
-        canvas_ratings = {}
-        for j, rate in enumerate(ratings):
-             canvas_ratings[str(j)] = {
-                 "description": rate.get("description", ""),
-                 "points": rate.get("points", 0)
-             }
-        
-        canvas_criteria[str(i)] = {
-            "description": crit.get("description", ""),
-            "ratings": canvas_ratings
-        }
-
-    rubric_params = {
-        "title": title,
-        "data": canvas_criteria
-    }
-    
-    assoc_params = {
-        "association_id": assignment_id,
-        "association_type": "Assignment",
-        "use_for_grading": True,
-        "purpose": "grading"
-    }
-
-    try:
-        # Returns a dict containing 'rubric' and 'rubric_association' objects
-        result = course.create_rubric(rubric=rubric_params, rubric_association=assoc_params)
-        return result['rubric'].id
-    except CanvasException as e:
-        raise RuntimeError(f"Canvas API Error (Rubric): {e}")
-
-
-# ---------------------------------------------------------------------------
-# Questions

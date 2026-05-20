@@ -105,12 +105,18 @@ def render_rubrics_section() -> None:
                         
                         # 2. Create and Associate Rubric
                         if assign.get("rubric"):
-                            st.write("Creating rubric...")
+                            rubric_data = assign["rubric"]
+                            st.write(f"Creating rubric with {len(rubric_data)} criteria...")
+                            for c_idx, crit in enumerate(rubric_data):
+                                st.write(f"  - **Criterion {c_idx+1}**: {crit.get('description', 'No description')}")
+                                for r_idx, rate in enumerate(crit.get("ratings", [])):
+                                    st.write(f"    * Rating: {rate.get('description')} ({rate.get('points')} pts)")
+                            
                             create_canvas_rubric(
                                 canvas_url, course_id, token,
                                 assignment_id=a_id,
                                 title=f"Rubric: {assign['title']}",
-                                criteria=assign["rubric"]
+                                criteria=rubric_data
                             )
                         status.update(label=f"✅ {assign['title']} Uploaded", state="complete")
                         success_count += 1
